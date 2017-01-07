@@ -1,0 +1,2 @@
+def calcTime(tweet, hasImage):
+    # get 
