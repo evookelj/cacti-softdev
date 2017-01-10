@@ -1,0 +1,4 @@
+emmaV -- 2017-01-09 12:30
+      added login python functions
+angelaY + emmaV -- 2017-01-10 12:30
+	added text-processing api functions
