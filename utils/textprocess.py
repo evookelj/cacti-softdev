@@ -18,28 +18,58 @@ def phrase(text):
 def tag(text):
     data={ 'text':text}
     r = requests.post("http://text-processing.com/api/tag/",data=data)
-    return r.json()['text']#.split(" ")
+    resp = r.json()['text'][3:].split("\n")
+    for chunk in resp:
+        chunk = chunk.strip()
+    if len(resp)==1:
+        resp = resp[0].split(" ");
 
-def isSameSentiment(userGiven, foundTweet):
+    #NN's and VBG's are the most important words (idk what stand for)
+    ret = []
+    for chunk in resp:
+        if 'NN' in chunk[-3:]:
+            ret.append(stem(chunk[:-2].strip(" \/N")))
+        if 'VBG' in chunk[-4:]:
+            ret.append(stem(chunk[:-3].strip(" \/N")))
+    return ret
+
+def isSameTopic(userGiven, foundTweet, isMoreSensitive):
+    phraseUser = phrase(userGiven)
+    phraseTweet = phrase(foundTweet)
+    if len(list(set(userGiven) & set(foundTweet))) > 0:
+        return True
+
+    #check tagging b/c desp to find similarity
+    tagUser = tag(userGiven)
+    tagTweet = tag(foundTweet)
+    return isSameChunks(tagUser, tagTweet, isMoreSensitive)
+
+def isSameChunks(tagUser, tagTweet, isMoreSensitive):
+    if isMoreSensitive:
+        sim = 3
+    else:
+        sim = 1
+    return len(list(set(tagUser) & set(tagTweet))) >= sim
+
+def isSameSentiment(userGiven, foundTweet, isMoreSensitive):
     senUser = sentiment(userGiven)
     senTweet = sentiment(foundTweet)
     eps = .2
+    if isMoreSensitive:
+        eps = .1
+
     if abs(senUser['neg']-senTweet['neg']) > eps:
         return False
     if abs(senUser['pos']-senTweet['pos']) > eps:
         return False
     return True
 
-def isRelevant(userGiven, foundTweet):
-    #the below should be removed once twitter api takes phrase data
-    #from given post in query str. this is just here for testing
-    phraseUser = phrase(userGiven)
-    phraseTweet = phrase(foundTweet)
-    if len(list(set(userGiven) & set(foundTweet))) == 0:
+#use isMoreSensitive to be less sensitive to sentiment-relatability in case
+#not enough data to be super harsh about that
+def isRelevant(userGiven, foundTweet, isMoreSensitive):
+    if not isSameTopic(userGiven, foundTweet, isMoreSensitive):
         return False
-    #end of code just for testing before ready
-    
-    return isSameSentiment(userGiven, foundTweet)
+    return isSameSentiment(userGiven, foundTweet, isMoreSensitive)
     
 """
 print sentiment("good")
@@ -47,5 +77,6 @@ print stem("Life is amazing and silly")
 print phrase("Red velvet brownies")
 print tag("computer science and english are so different")
 """
-print isRelevant("I love belle and sebastian","belle and sebastian are the best!")
-print isRelevant("I love belle and sebastian","belle and sebastian are the worst!")
+print isRelevant("I love belle and sebastian","belle and sebastian are the worst!", False)
+print "\n"
+print isRelevant("Belle and sebastian are okay", "I love belle and sebastian", False)
