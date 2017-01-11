@@ -41,13 +41,14 @@ def isSameTopic(userGiven, foundTweet, isMoreSensitive):
     intrs = len(list(set(phraseUser) & set(phraseTweet)))
     if intrs==0:
         return 0
-    phrVal = float(intrs)/min(len(phraseUser), len(phraseTweet))
+    den = .95*(len(phraseUser) + len(phraseTweet))+.05
+    phrVal = float(intrs)/den
     print "phrVal: " + str(phrVal)
 
     tagUser = tag(userGiven)
     tagTweet = tag(foundTweet)
     
-    return phrVal*isSameChunks(tagUser, tagTweet, isMoreSensitive)
+    return (.8*phrVal)+(.2*isSameChunks(tagUser, tagTweet, isMoreSensitive))
 
 def isSameChunks(tagUser, tagTweet, isMoreSensitive):
     if isMoreSensitive:
@@ -56,8 +57,9 @@ def isSameChunks(tagUser, tagTweet, isMoreSensitive):
         sim = 1
     intrs = len(list(set(tagUser) & set(tagTweet)))
     if intrs==0:
-        return 0
-    retVal = float(intrs)/min(len(tagUser), len(tagTweet))
+        intrs = .1
+    den = .95*(len(tagUser) + len(tagTweet))+.05
+    retVal = float(intrs)/den
     print "chnk: " + str(retVal)
     return retVal
 
@@ -83,7 +85,7 @@ def isSameSentiment(userGiven, foundTweet, isMoreSensitive):
 def relevancyWeight(userGiven, foundTweet, isMoreSensitive):
     userGiven = userGiven.lower()
     foundTweet = foundTweet.lower()
-    retVal = isSameTopic(userGiven, foundTweet, isMoreSensitive) * isSameSentiment(userGiven, foundTweet, isMoreSensitive)
+    retVal = (.2*isSameTopic(userGiven, foundTweet, isMoreSensitive)) + (.8*isSameSentiment(userGiven, foundTweet, isMoreSensitive))
     return retVal
     
 print relevancyWeight("I love belle and sebastian","belle and sebastian are the worst!", False)
