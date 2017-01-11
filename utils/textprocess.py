@@ -36,20 +36,30 @@ def tag(text):
 def isSameTopic(userGiven, foundTweet, isMoreSensitive):
     phraseUser = phrase(userGiven)
     phraseTweet = phrase(foundTweet)
-    if len(list(set(userGiven) & set(foundTweet))) > 0:
-        return True
+    print "user: " + str(phraseUser)
+    print "tweet: " + str(phraseTweet)
+    intrs = len(list(set(phraseUser) & set(phraseTweet)))
+    if intrs==0:
+        return 0
+    phrVal = float(intrs)/min(len(phraseUser), len(phraseTweet))
+    print "phrVal: " + str(phrVal)
 
-    #check tagging b/c desp to find similarity
     tagUser = tag(userGiven)
     tagTweet = tag(foundTweet)
-    return isSameChunks(tagUser, tagTweet, isMoreSensitive)
+    
+    return phrVal*isSameChunks(tagUser, tagTweet, isMoreSensitive)
 
 def isSameChunks(tagUser, tagTweet, isMoreSensitive):
     if isMoreSensitive:
         sim = 3
     else:
         sim = 1
-    return len(list(set(tagUser) & set(tagTweet))) >= sim
+    intrs = len(list(set(tagUser) & set(tagTweet)))
+    if intrs==0:
+        return 0
+    retVal = float(intrs)/min(len(tagUser), len(tagTweet))
+    print "chnk: " + str(retVal)
+    return retVal
 
 def isSameSentiment(userGiven, foundTweet, isMoreSensitive):
     senUser = sentiment(userGiven)
@@ -64,14 +74,17 @@ def isSameSentiment(userGiven, foundTweet, isMoreSensitive):
         return 0
     if posDiff > eps:
         return 0
-    return max(1-negDiff, 1-posDiff)
+    retVal = max(1-negDiff, 1-posDiff)
+    print "sen: " + str(retVal)
+    return retVal
 
 #use isMoreSensitive to be less sensitive to sentiment-relatability in case
 #not enough data to be super harsh about that
 def relevancyWeight(userGiven, foundTweet, isMoreSensitive):
-    if not isSameTopic(userGiven, foundTweet, isMoreSensitive):
-        return 0
-    return isSameSentiment(userGiven, foundTweet, isMoreSensitive)
+    userGiven = userGiven.lower()
+    foundTweet = foundTweet.lower()
+    retVal = isSameTopic(userGiven, foundTweet, isMoreSensitive) * isSameSentiment(userGiven, foundTweet, isMoreSensitive)
+    return retVal
     
 print relevancyWeight("I love belle and sebastian","belle and sebastian are the worst!", False)
 print relevancyWeight("Belle and sebastian are okay", "I love belle and sebastian", False)
