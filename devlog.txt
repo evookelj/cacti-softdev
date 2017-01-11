@@ -7,3 +7,5 @@ yvonneC -- 2017-01-10 12:33
 emmaV -- 2017-01-10 19:46
 	progress on text comparison/relevancy check in textprocessing.py
 	add chunks as verifier for relevancy
+	determine relevance as weight (0,1) rather than boolean to weight
+		timing in calculations based on relevancy
