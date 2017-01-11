@@ -6,3 +6,4 @@ yvonneC -- 2017-01-10 12:33
 	began work on twitter handling and basic app.py
 emmaV -- 2017-01-10 19:46
 	progress on text comparison/relevancy check in textprocessing.py
+	add chunks as verifier for relevancy
