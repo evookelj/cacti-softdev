@@ -58,25 +58,20 @@ def isSameSentiment(userGiven, foundTweet, isMoreSensitive):
     if isMoreSensitive:
         eps = .1
 
-    if abs(senUser['neg']-senTweet['neg']) > eps:
-        return False
-    if abs(senUser['pos']-senTweet['pos']) > eps:
-        return False
-    return True
+    negDiff = abs(senUser['neg'] - senTweet['neg'])
+    posDiff = abs(senUser['pos'] - senTweet['pos'])
+    if negDiff > eps:
+        return 0
+    if posDiff > eps:
+        return 0
+    return max(1-negDiff, 1-posDiff)
 
 #use isMoreSensitive to be less sensitive to sentiment-relatability in case
 #not enough data to be super harsh about that
-def isRelevant(userGiven, foundTweet, isMoreSensitive):
+def relevancyWeight(userGiven, foundTweet, isMoreSensitive):
     if not isSameTopic(userGiven, foundTweet, isMoreSensitive):
-        return False
+        return 0
     return isSameSentiment(userGiven, foundTweet, isMoreSensitive)
     
-"""
-print sentiment("good")
-print stem("Life is amazing and silly")
-print phrase("Red velvet brownies")
-print tag("computer science and english are so different")
-"""
-print isRelevant("I love belle and sebastian","belle and sebastian are the worst!", False)
-print "\n"
-print isRelevant("Belle and sebastian are okay", "I love belle and sebastian", False)
+print relevancyWeight("I love belle and sebastian","belle and sebastian are the worst!", False)
+print relevancyWeight("Belle and sebastian are okay", "I love belle and sebastian", False)
