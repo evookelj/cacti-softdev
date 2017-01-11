@@ -85,8 +85,9 @@ def isSameSentiment(userGiven, foundTweet, isMoreSensitive):
 def relevancyWeight(userGiven, foundTweet, isMoreSensitive):
     userGiven = userGiven.lower()
     foundTweet = foundTweet.lower()
-    retVal = (.2*isSameTopic(userGiven, foundTweet, isMoreSensitive)) + (.8*isSameSentiment(userGiven, foundTweet, isMoreSensitive))
+    retVal = ((.2*isSameTopic(userGiven, foundTweet, isMoreSensitive)) + (.8*isSameSentiment(userGiven, foundTweet, isMoreSensitive)))*1.1
     return retVal
     
-print relevancyWeight("I love belle and sebastian","belle and sebastian are the worst!", False)
-print relevancyWeight("Belle and sebastian are okay", "I love belle and sebastian", False)
+#print relevancyWeight("I love belle and sebastian","belle and sebastian are the worst!", False)
+#print relevancyWeight("Belle and sebastian are okay", "I love belle and sebastian", False)
+print relevancyWeight("Belle and sebastian are okay", "Belle and sebastian are okay", False)
