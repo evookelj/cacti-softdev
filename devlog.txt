@@ -9,3 +9,9 @@ emmaV -- 2017-01-10 19:46
 	add chunks as verifier for relevancy
 	determine relevance as weight (0,1) rather than boolean to weight
 		timing in calculations based on relevancy
+
+emmaV -- 2017-01-11 15:30
+	make scaling more nuanced
+
+yvonneC & angelaY & emmaV -- 2017-01-12 12:30
+	get twitter API searching working and get relevant info from it
