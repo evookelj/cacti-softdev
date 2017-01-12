@@ -1,1 +1,6 @@
+# Compiled files
 *.pyc
+
+# Editor backup files
+*.sw[a-z]
+*~
