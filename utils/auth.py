@@ -4,16 +4,16 @@ from hashlib import sha1
 from sqlite3 import connect
 from os import urandom
 import oauth2 as oauth
-import json, twitter
+import json#, twitter
 
-t = open("api.txt","r")
+t = open("tw.txt","r")
 keys = t.read().split("\n")
 print keys
 CONSUMER_KEY = keys[0]
 CONSUMER_SECRET = keys[1]
 ACCESS_KEY = keys[2]
 ACCESS_SECRET = keys[3]
-twitter.close()
+t.close()
 
 consumer = oauth.Consumer(key=CONSUMER_KEY, secret=CONSUMER_SECRET)
 access_token = oauth.Token(key=ACCESS_KEY, secret=ACCESS_SECRET)
