@@ -2,7 +2,7 @@ import sqlite3, time
 import oauth2 as oauth
 import json
 
-database = sqlite3.connect('data/database.db')
+#database = sqlite3.connect('data/database.db')
 
 def tweetExists(id, user):
     c = database.cursor()
@@ -49,3 +49,6 @@ def get():
             }
         )
     print tweet['created_at']
+
+if (__name__ == "__main__"):
+    get()
