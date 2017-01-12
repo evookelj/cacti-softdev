@@ -19,12 +19,23 @@ consumer = oauth.Consumer(key=CONSUMER_KEY, secret=CONSUMER_SECRET)
 access_token = oauth.Token(key=ACCESS_KEY, secret=ACCESS_SECRET)
 client = oauth.Client(consumer, access_token)
 
-timeline_endpoint = "https://api.twitter.com/1.1/statuses/home_timeline.json"
-response, data = client.request(timeline_endpoint)
+timeline_endpoint = "https://api.twitter.com/1.1/search/tweets.json?q=%23trump&result_type=popular"
 
-tweets = json.loads(data)
-for tweet in tweets:
-    print tweet['text']
+def get():
+    response, data = client.request(timeline_endpoint)
+    
+    tweets = json.loads(data)
+    data = []
+    for tweet in tweets['statuses']:
+        data.append(
+            {
+                'text': tweet['text'],
+                'favoriteCount': tweet['favorite_count'],
+                'retweeted': tweet['retweeted'],
+                'created_at': tweet['created_at']
+            }
+        )
+    print tweet['created_at']
 
 f = "data/quench.db"
 db = connect(f)
@@ -101,3 +112,6 @@ def duplicate(user):#checks if username already exists
     db.commit()
     db.close()
     return retVal
+
+if (__name__ == "main"):
+    get()
