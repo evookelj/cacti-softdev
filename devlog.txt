@@ -16,3 +16,7 @@ yvonneC -- 2017-01-12 10:30
 	write methods that allow adding tweets and checking for tweets in database
 yvonneC & angelaY & emmaV -- 2017-01-12 12:30
 	get twitter API searching working and get relevant info from it
+
+wilsonB -- 2017-01-12 12:30
+	add CSS and JS libraries to static/
+	create parent template containing a navbar and blocks
