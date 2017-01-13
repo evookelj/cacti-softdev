@@ -23,7 +23,7 @@ wilsonB -- 2017-01-12 12:30
 emmaV -- 2017-01-12 19:00
 	format time from tweets into correct format
 	clean up twitter stuff into functions
-	start linking tweets and textprocess
+	get similar tweets and get time and relevancy from each
 wilsonB -- 2017-01-12 19:55
 	create welcome.html template with login/register, and
 	make template names match design doc
