@@ -1,6 +1,15 @@
+#from utils
+import textprocess, twitter
+
 def calcTime(tweet, hasImage):
-    # get text processing on tweet
-    # turn these results into a query string
-    # call from twitter w this query
-    # store results from these tweets
-    # weight time based on likes/retweets
+    fromTweet = list(set(textprocess.tag(tweet)) | set(textprocess.phrase(tweet)))
+    for keyword in tweet:
+        print keyword
+        if " " not in keyword:
+            twitter.addSearchTerm(keyword)
+            datas = twitter.get()
+            for data in datas:
+                #print data['text']
+                print "\n"
+
+calcTime("Donald Trump will never be my president", False);

@@ -3,6 +3,7 @@ import oauth2 as oauth
 import json
 from datetime import datetime
 from time import strptime
+import urllib
 
 t = open("tw.txt","r")
 keys = t.read().split("\n")
@@ -17,7 +18,7 @@ access_token = oauth.Token(key=ACCESS_KEY, secret=ACCESS_SECRET)
 client = oauth.Client(consumer, access_token)
 
 timeline_endpoint = "https://api.twitter.com/1.1/search/tweets.json?"
-addon = ""
+addon = "lang=en"
 
 def addSearchTerm(term):
     global addon
@@ -26,6 +27,23 @@ def addSearchTerm(term):
     else:
         pre = "&q=%23"
     addon += pre + term
+
+def addSearchList(list):
+    global addon
+    if addon=="":
+        pre = "q="
+    else:
+        pre = "&q="
+    these = list[0]
+    first = True
+    for word in list:
+        if first:
+            first = False
+        else:
+            these += " OR %s"%(word)
+    these = urllib.quote_plus(these)
+    addon += pre + these
+    print addon
 
 def formatTwTime(twTime):
     twTime = twTime.split(" ")
@@ -44,12 +62,11 @@ def get():
     addon += "&result_type=popular"
     url = timeline_endpoint+addon
     response, data = client.request(url)
-    print url
-    
     tweets = json.loads(data)
     data = []
     if 'errors' in tweets.keys():
         print tweets['errors'][0]['message']
+        return []
     for tweet in tweets['statuses']:
         data.append({
                 'text': tweet['text'],
@@ -58,6 +75,7 @@ def get():
                 'time': formatTwTime(tweet['created_at'])
             })
     addon = ""
+    return data
 
 if (__name__ == "__main__"):
     addSearchTerm("puppy");
