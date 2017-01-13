@@ -23,3 +23,4 @@ wilsonB -- 2017-01-12 12:30
 emmaV -- 2017-01-12 19:00
 	format time from tweets into correct format
 	clean up twitter stuff into functions
+	start linking tweets and textprocess
