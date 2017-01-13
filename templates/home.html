@@ -1,5 +1,54 @@
 {% extends "navigation.html" %}
 {% block content %}
-<h1>Quenchr</h1>
-Prepared to be followed (on Twitter).
+<div class="row">
+    <div class="col-md-4">
+        <h1>Quenchr</h1>
+        Prepared to be followed (on Twitter).
+    </div>
+    <div class="col-md-4">
+        <h3>Register:</h3>
+        <form method="POST">
+            <input type="hidden" name="type" value="register" />
+            <div class="input-group">
+                <span class="input-group-addon">@</span>
+                <input name="handle" type="text" class="form-control" placeholder="Twitter Handle" />
+            </div>
+            <div class="input-group">
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-lock" aria-hidden="true"></span>
+                </span>
+                <input name="pass1" type="password" class="form-control" placeholder="Password for Quenchr" />
+            </div>
+            <div class="input-group">
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-lock" aria-hidden="true"></span>
+                </span>
+                <input name="pass2" type="password" class="form-control" placeholder="Re-enter password" />
+            </div>
+            <input type="submit" />
+        </form>
+    </div>
+    <div class="col-md-4">
+        <h3>Login:</h3>
+        <form method="POST">
+            <input type="hidden" name="type" value="login" />
+            <div class="input-group">
+                <span class="input-group-addon">@</span>
+                <input name="handle" type="text" class="form-control" placeholder="Twitter Handle" />
+            </div>
+            <div class="input-group">
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-lock" aria-hidden="true"></span>
+                </span>
+                <input name="pass" type="password" class="form-control" placeholder="Password for Quenchr" />
+            </div>
+            <input type="submit" />
+        </form>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <em>promotion, promotion, promotion...</em>
+    </div>
+</div>
 {% endblock %}
