@@ -36,15 +36,11 @@ def tag(text):
 def isSameTopic(userGiven, foundTweet, isMoreSensitive):
     phraseUser = phrase(userGiven)
     phraseTweet = phrase(foundTweet)
-    print "user: " + str(phraseUser)
-    print "tweet: " + str(phraseTweet)
     intrs = len(list(set(phraseUser) & set(phraseTweet)))
     if intrs==0:
         return 0
     den = .95*(len(phraseUser) + len(phraseTweet))+.05
     phrVal = float(intrs)/den
-    print "phrVal: " + str(phrVal)
-
     tagUser = tag(userGiven)
     tagTweet = tag(foundTweet)
     
@@ -60,7 +56,6 @@ def isSameChunks(tagUser, tagTweet, isMoreSensitive):
         intrs = .1
     den = .95*(len(tagUser) + len(tagTweet))+.05
     retVal = float(intrs)/den
-    print "chnk: " + str(retVal)
     return retVal
 
 def isSameSentiment(userGiven, foundTweet, isMoreSensitive):
@@ -77,7 +72,6 @@ def isSameSentiment(userGiven, foundTweet, isMoreSensitive):
     if posDiff > eps:
         return 0
     retVal = max(1-negDiff, 1-posDiff)
-    print "sen: " + str(retVal)
     return retVal
 
 #use isMoreSensitive to be less sensitive to sentiment-relatability in case
@@ -91,4 +85,5 @@ def relevancyWeight(userGiven, foundTweet, isMoreSensitive):
 if __name__ == '__main__':
     #print relevancyWeight("I love belle and sebastian","belle and sebastian are the worst!", False)
     #print relevancyWeight("Belle and sebastian are okay", "I love belle and sebastian", False)
-    print relevancyWeight("Belle and sebastian are okay", "Belle and sebastian are okay", False)
+    #print relevancyWeight("Belle and sebastian are okay", "Belle and sebastian are okay", False)
+    print " "

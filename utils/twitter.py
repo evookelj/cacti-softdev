@@ -18,7 +18,7 @@ access_token = oauth.Token(key=ACCESS_KEY, secret=ACCESS_SECRET)
 client = oauth.Client(consumer, access_token)
 
 timeline_endpoint = "https://api.twitter.com/1.1/search/tweets.json?"
-addon = "lang=en"
+addon = "lang=en&count=2"
 
 def addSearchTerm(term):
     global addon
@@ -75,6 +75,7 @@ def get():
                 'time': formatTwTime(tweet['created_at'])
             })
     addon = ""
+    print "got"
     return data
 
 if (__name__ == "__main__"):
