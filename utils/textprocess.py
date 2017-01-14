@@ -1,21 +1,25 @@
 import json, requests , math
 
 def sentiment(text):
+    text = text.lower()
     data={ 'text':text}
     r = requests.post("http://text-processing.com/api/sentiment/",data=data)
     return r.json()['probability']
 
 def stem(text):
+    text = text.lower()
     data={ 'text':text}
     r = requests.post("http://text-processing.com/api/stem/",data=data)
     return r.json()['text']
 
 def phrase(text):
+    text = text.lower()
     data={ 'text':text}
     r = requests.post("http://text-processing.com/api/phrases/",data=data)
     return r.json()['NP']
 
 def tag(text):
+    text = text.lower()
     data={ 'text':text}
     r = requests.post("http://text-processing.com/api/tag/",data=data)
     resp = r.json()['text'][3:].split("\n")
@@ -33,16 +37,15 @@ def tag(text):
             ret.append(stem(chunk[:-3].strip(" \/N")))
     return ret
 
-def isSameTopic(userGiven, foundTweet, isMoreSensitive):
-    phraseUser = phrase(userGiven)
+def isSameTopic(phraseUser, tagUser, foundTweet, isMoreSensitive):
     phraseTweet = phrase(foundTweet)
     intrs = len(list(set(phraseUser) & set(phraseTweet)))
     if intrs==0:
         return 0
     den = .95*(len(phraseUser) + len(phraseTweet))+.05
     phrVal = float(intrs)/den
-    tagUser = tag(userGiven)
     tagTweet = tag(foundTweet)
+    print "GOT IS SAME TOPIC"
     
     return (.8*phrVal)+(.2*isSameChunks(tagUser, tagTweet, isMoreSensitive))
 
@@ -56,6 +59,7 @@ def isSameChunks(tagUser, tagTweet, isMoreSensitive):
         intrs = .1
     den = .95*(len(tagUser) + len(tagTweet))+.05
     retVal = float(intrs)/den
+    print "GOT IS SAME CHUNKS"
     return retVal
 
 def isSameSentiment(userGiven, foundTweet, isMoreSensitive):
@@ -72,18 +76,17 @@ def isSameSentiment(userGiven, foundTweet, isMoreSensitive):
     if posDiff > eps:
         return 0
     retVal = max(1-negDiff, 1-posDiff)
+    print "GOT IS SAME SENTIMENT"
     return retVal
 
 #use isMoreSensitive to be less sensitive to sentiment-relatability in case
 #not enough data to be super harsh about that
-def relevancyWeight(userGiven, foundTweet, isMoreSensitive):
+def relevancyWeight(phraseUser, tagUser, userGiven, foundTweet, isMoreSensitive):
     userGiven = userGiven.lower()
     foundTweet = foundTweet.lower()
-    retVal = ((.2*isSameTopic(userGiven, foundTweet, isMoreSensitive)) + (.8*isSameSentiment(userGiven, foundTweet, isMoreSensitive)))*1.1
+    retVal = ((.2*isSameTopic(phraseUser, tagUser, foundTweet, isMoreSensitive)) + (.8*isSameSentiment(userGiven, foundTweet, isMoreSensitive)))*1.1
+    print "GOT RELEVANCY"
     return retVal
 
 if __name__ == '__main__':
-    #print relevancyWeight("I love belle and sebastian","belle and sebastian are the worst!", False)
-    #print relevancyWeight("Belle and sebastian are okay", "I love belle and sebastian", False)
-    #print relevancyWeight("Belle and sebastian are okay", "Belle and sebastian are okay", False)
     print " "

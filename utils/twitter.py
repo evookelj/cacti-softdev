@@ -1,7 +1,6 @@
 import sqlite3, time
 import oauth2 as oauth
 import json
-from datetime import datetime
 from time import strptime
 import urllib
 
@@ -18,22 +17,17 @@ access_token = oauth.Token(key=ACCESS_KEY, secret=ACCESS_SECRET)
 client = oauth.Client(consumer, access_token)
 
 timeline_endpoint = "https://api.twitter.com/1.1/search/tweets.json?"
-addon = "lang=en&count=2"
+count = 20
+addon = "lang=en&count=%d"%(count)
 
 def addSearchTerm(term):
     global addon
-    if addon=="":
-        pre = "q=%23"
-    else:
-        pre = "&q=%23"
-    addon += pre + term
+    pre = "&q="
+    addon += urllib.quote_plus(pre + term)
 
 def addSearchList(list):
     global addon
-    if addon=="":
-        pre = "q="
-    else:
-        pre = "&q="
+    pre = "&q="
     these = list[0]
     first = True
     for word in list:
@@ -43,25 +37,19 @@ def addSearchList(list):
             these += " OR %s"%(word)
     these = urllib.quote_plus(these)
     addon += pre + these
-    print addon
 
 def formatTwTime(twTime):
-    twTime = twTime.split(" ")
-    time = twTime[3].split(":")
-    yr = int(twTime[-1])
-    mon = strptime(twTime[1],'%b').tm_mon
-    day = int(twTime[2])
+    time = twTime.split(" ")[3].split(":")
     hr = int(time[0])
     minute = int(time[1])
-    sec = int(time[2])
-    t = datetime(yr, mon, day, hr, minute, sec)
-    return t
+    return [hr, minute]
     
 def get():
     global addon
     addon += "&result_type=popular"
     url = timeline_endpoint+addon
     response, data = client.request(url)
+    print "URL: " + url
     tweets = json.loads(data)
     data = []
     if 'errors' in tweets.keys():
@@ -74,8 +62,7 @@ def get():
                 'retweeted': tweet['retweeted'],
                 'time': formatTwTime(tweet['created_at'])
             })
-    addon = ""
-    print "got"
+    addon = "lang=en&count=%d"%(count)
     return data
 
 if (__name__ == "__main__"):
