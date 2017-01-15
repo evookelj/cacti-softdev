@@ -1,12 +1,12 @@
 #from utils
-import textprocess, twitter, enchant
+import textprocess, twitter, enchant, pytz, datetime
 
 def isEnglish(text):
      d = enchant.Dict("en_US")
      words = text.split(" ")
      return d.check(words[0]) or d.check(words[2])
 
-def getData(tweet, hasImage):
+def calcTime(tweet, hasImage):
 
      tweetTag = textprocess.tag(tweet)
      tweetPhrase = textprocess.phrase(tweet)
@@ -26,10 +26,20 @@ def getData(tweet, hasImage):
                          'weight': weight
                     })
                     optHr += data['time'][0]*weight
-                    print data['time'][0]
                     optMin += data['time'][1]*weight
                     totWeight += weight
      den = totWeight
      return [optHr/den, optMin/den]
 
-print getData("Donald Trump will never be my president", False);
+def utcToLocal(hr, minute, tz):
+     local_tz = pytz.timezone(tz)
+     utc_dt = datetime.datetime(2017,01,15,int(hr),int(minute))
+     local_dt = utc_dt.replace(tzinfo=pytz.utc).astimezone(local_tz)
+     user_tz = local_tz.normalize(local_dt)
+     return [user_tz.hour, user_tz.minute]
+
+def quench(tweet, hasImage):
+     utcT = calcTime(tweet, hasImage)
+     return utcToLocal(utcT[0], utcT[1], "US/Eastern")
+
+print quench("Donald Trump will never be my president", False);
