@@ -11,6 +11,12 @@ c = db.cursor()
 def login(user, password):
     db = connect(f)
     c = db.cursor()
+
+    try: #does table already exist?
+        c.execute("SELECT * FROM USERS")
+    except: #if not, this is the first user!
+        c.execute("CREATE TABLE users (user TEXT, salt TEXT, password TEXT, clientToken TEXT)")
+        
     query = ("SELECT * FROM users WHERE user=?")
     sel = c.execute(query,(user,));
     
@@ -27,7 +33,9 @@ def login(user, password):
     db.close()
     return "Username does not exist"#error message
 
-def register(user, password):
+def register(user, ps1, ps2):
+    if not ps1 == ps2:
+        return "Passwords not the same."
     db = connect(f)
     c = db.cursor()
     try: #does table already exist?
@@ -36,7 +44,7 @@ def register(user, password):
         c.execute("CREATE TABLE users (user TEXT, salt TEXT, password TEXT, clientToken TEXT)")
     db.commit()
     db.close()
-    return regMain(user, password)#register helper
+    return regMain(user, ps1)#register helper
 
 def regMain(user, password):#register helper
     db = connect(f)

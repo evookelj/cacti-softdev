@@ -1,6 +1,8 @@
 from flask import Flask, session, request, url_for, redirect, render_template
+from utils import auth
 
 app = Flask(__name__)
+app.secret_key = "deal with this later"
 
 @app.route("/", methods=["GET", "POST"])
 def home():
@@ -16,22 +18,24 @@ def home():
 
 @app.route("/authenticate/", methods=['POST'])
 def authenticate():
-    print request.form.values()
-    pw = request.form["password"]
-    un = request.form["user"]
-    em = request.form["email"]
-    tp = request.form["account"]#login vs. register
+    un = request.form["handle"]
     
-    if tp == "Register":
-        regRet = users.register(un,em,pw)#returns an error/success message
-        #return render_template('login.html', message = regRet)
+    if request.form["type"] == "register":
+        ps1 = request.form["pass1"]
+        ps2 = request.form["pass2"]
+        regRet = auth.register(un,ps1,ps2)#returns an error/success message
+        print regRet
+        return redirect(url_for('home'))
         
-    if tp == "Login":
-        text = users.login(un,em,pw)#error message
+    else:
+        pw = request.form["pass"]
+        text = auth.login(un,pw)#error message
         if text == "":#if no error message, succesful go back home
             session["username"] = un
+            print text
             return redirect(url_for('home'))
-        #return render_template('login.html', message = text)
+        print text
+        return redirect(url_for('home'))
 
 if __name__ == '__main__':
     app.debug = True
