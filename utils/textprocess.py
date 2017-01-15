@@ -45,7 +45,7 @@ def isSameTopic(phraseUser, tagUser, foundTweet, isMoreSensitive):
     den = .95*(len(phraseUser) + len(phraseTweet))+.05
     phrVal = float(intrs)/den
     tagTweet = tag(foundTweet)
-    print "GOT IS SAME TOPIC"
+    #print "GOT IS SAME TOPIC"
     
     return (.8*phrVal)+(.2*isSameChunks(tagUser, tagTweet, isMoreSensitive))
 
@@ -59,7 +59,7 @@ def isSameChunks(tagUser, tagTweet, isMoreSensitive):
         intrs = .1
     den = .95*(len(tagUser) + len(tagTweet))+.05
     retVal = float(intrs)/den
-    print "GOT IS SAME CHUNKS"
+    #print "GOT IS SAME CHUNKS"
     return retVal
 
 def isSameSentiment(userGiven, foundTweet, isMoreSensitive):
@@ -76,7 +76,7 @@ def isSameSentiment(userGiven, foundTweet, isMoreSensitive):
     if posDiff > eps:
         return 0
     retVal = max(1-negDiff, 1-posDiff)
-    print "GOT IS SAME SENTIMENT"
+    #print "GOT IS SAME SENTIMENT"
     return retVal
 
 #use isMoreSensitive to be less sensitive to sentiment-relatability in case
@@ -85,7 +85,7 @@ def relevancyWeight(phraseUser, tagUser, userGiven, foundTweet, isMoreSensitive)
     userGiven = userGiven.lower()
     foundTweet = foundTweet.lower()
     retVal = ((.2*isSameTopic(phraseUser, tagUser, foundTweet, isMoreSensitive)) + (.8*isSameSentiment(userGiven, foundTweet, isMoreSensitive)))*1.1
-    print "GOT RELEVANCY"
+    #print "GOT RELEVANCY"
     return retVal
 
 if __name__ == '__main__':

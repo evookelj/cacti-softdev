@@ -16,16 +16,20 @@ def getData(tweet, hasImage):
      datas = twitter.get()
      optHr = 0
      optMin = 0
+     totWeight = 0
      for data in datas:
           if isEnglish(data['text']):
                weight =  textprocess.relevancyWeight(tweetPhrase, tweetTag, tweet, data['text'], False)
-               gotten.append({
-                    'time': data['time'],
-                    'weight': weight
-                         })
-               optHr += data['time'][0]*weight
-               optMin += data['time'][1]*weight
-     #print len(gotten)
-     return [optHr/len(gotten), optMin/len(gotten)]
+               if weight != 0:
+                    gotten.append({
+                         'time': data['time'],
+                         'weight': weight
+                    })
+                    optHr += data['time'][0]*weight
+                    print data['time'][0]
+                    optMin += data['time'][1]*weight
+                    totWeight += weight
+     den = totWeight
+     return [optHr/den, optMin/den]
 
 print getData("Donald Trump will never be my president", False);
