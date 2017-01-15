@@ -34,3 +34,4 @@ emmaV -- 2017-01-14 12:20
 	 start calculating time
 emmaV -- 2017-01-15 11:30
       	 accurate time calculation!!
+	 integrate back and front for login/register
