@@ -32,3 +32,5 @@ emmaV -- 2017-01-14 12:20
 	 remove calculating same thing twice (faster)
 	 fix query restart
 	 start calculating time
+emmaV -- 2017-01-15 11:30
+      	 accurate time calculation!!
