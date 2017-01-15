@@ -35,3 +35,4 @@ emmaV -- 2017-01-14 12:20
 emmaV -- 2017-01-15 11:30
       	 accurate time calculation!!
 	 integrate back and front for login/register
+	 convert tz from UTC to input (default US/Eastern)
