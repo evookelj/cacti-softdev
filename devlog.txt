@@ -36,3 +36,7 @@ emmaV -- 2017-01-15 11:30
       	 accurate time calculation!!
 	 integrate back and front for login/register
 	 convert tz from UTC to input (default US/Eastern)
+angelaY -- 2017-01-16 16:20
+		fixed display of error message
+		added user sessions
+		basic profile page with tweet input linked to back end
