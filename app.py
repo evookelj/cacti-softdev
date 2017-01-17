@@ -38,8 +38,8 @@ def logout():
 @app.route("/tweet/", methods=['POST'])
 def tweet():
     ui=request.form['tweet']
-    print quench.calcTime(ui, False)
-    return redirect(url_for('home'))
+    opt=quench.calcTime(ui, False)
+    return render_template("results.html", message=ui, time=str(opt[0])+":"+str(opt[1]))
 
 if __name__ == '__main__':
     app.debug = True

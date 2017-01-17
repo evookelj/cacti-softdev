@@ -1,6 +1,15 @@
 {% extends "layout.html" %}
 {% block content %}
 
+Your tweet:
+{{message}}
+<br>
+Optimal time to post:
+{{time}}
+
+<br>
+
+Try another tweet:
 <form method="POST" action="/tweet/">
   <input name="tweet" type="text" placeholder="Find the optimal time for your tweet" />
   <br>
@@ -11,5 +20,4 @@
   <button type="submit">Log Out</button>
 </form>
 
-
-{% endblock %}
+{%end block%}

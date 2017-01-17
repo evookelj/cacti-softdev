@@ -39,4 +39,6 @@ emmaV -- 2017-01-15 11:30
 angelaY -- 2017-01-16 16:20
 		fixed display of error message
 		added user sessions
-		basic profile page with tweet input linked to back end
+		basic dashboard page with tweet input linked to back end
+angelaY --2017-01-17 12:30
+		basic results page with tweet and time and option to try another tweet
