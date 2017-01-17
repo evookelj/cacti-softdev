@@ -9,7 +9,7 @@ def home():
     if len(session.keys())==0:
         return render_template('welcome.html')
     else:
-        return render_template("profile.html")
+        return render_template("dashboard.html")
 
 @app.route("/authenticate/", methods=['POST'])
 def authenticate():
