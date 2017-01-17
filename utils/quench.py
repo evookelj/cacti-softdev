@@ -42,4 +42,5 @@ def quench(tweet, hasImage):
      utcT = calcTime(tweet, hasImage)
      return utcToLocal(utcT[0], utcT[1], "US/Eastern")
 
-print quench("Donald Trump will never be my president", False);
+if __name__ == '__main__':
+    print quench("Donald Trump will never be my president", False);
