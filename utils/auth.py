@@ -87,6 +87,3 @@ def duplicate(user):#checks if username already exists
     db.commit()
     db.close()
     return retVal
-
-if (__name__ == "main"):
-    get()
