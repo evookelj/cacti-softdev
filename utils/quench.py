@@ -47,7 +47,7 @@ def calcTime(tweet, hasImage):
      datas = twitter.get()
      optHr = 0
      optMin = 0
-     totWeight = 0
+     totWeight = float(0)
      for data in datas:
           if isEnglish(data['text']):
                weight =  textprocess.relevancyWeight(tweetPhrase, tweetTag, tweet, data['text'], False)
@@ -60,7 +60,10 @@ def calcTime(tweet, hasImage):
                     optMin += data['time'][1]*weight
                     totWeight += weight
      den = totWeight
-     return [optHr/den, optMin/den]
+     if den != 0:
+          return [int(optHr/den), int(optMin/den)]
+     else:
+          return [0,0]
 
 def utcToLocal(hr, minute, tz):
      local_tz = pytz.timezone(tz)
@@ -71,6 +74,8 @@ def utcToLocal(hr, minute, tz):
 
 def quench(user, tweet, hasImage):
      utcT = calcTime(tweet, hasImage)
+     if utcT[0] == []:
+          return "Not enough data available/not a substantial enough tweet"
      addToTable(user, tweet, utcT[0], utcT[1])
      return utcToLocal(utcT[0], utcT[1], "US/Eastern")
 

@@ -16,7 +16,11 @@ def phrase(text):
     text = text.lower()
     data={ 'text':text}
     r = requests.post("http://text-processing.com/api/phrases/",data=data)
-    return r.json()['NP']
+    j = r.json()
+    if 'NP' in j.keys():
+        return j['NP']
+    else:
+        return []
 
 def tag(text):
     text = text.lower()
