@@ -42,3 +42,6 @@ angelaY -- 2017-01-16 16:20
 		basic dashboard page with tweet input linked to back end
 angelaY --2017-01-17 12:30
 		basic results page with tweet and time and option to try another tweet
+emmaV -- 2017-01-18 12:30
+	start adding tweets to database
+	add err checking for tweet not substantial enough
