@@ -1,5 +1,36 @@
 #from utils
 import textprocess, twitter, enchant, pytz, datetime
+from sqlite3 import connect
+
+f = "data/quench.db"
+db = connect(f)
+c = db.cursor()
+
+# TABLE tweets
+# TEXT handle, TEXT tweet, INT hr, INT minute
+
+def createTable():
+     c.execute("CREATE TABLE tweets (handle TEXT, tweet TEXT, hr INT, minute INT");
+     db.commit()
+     db.close()
+
+def exists(user, tweet):
+     query = "SELECT hr FROM tweets WHERE handle=? and tweet=?"
+     c.execute(query, (user, tweet))
+     for record in sel:
+          db.commit()
+          db.close()
+          return True
+     db.commit()
+     db.close()
+     return False
+
+def addToTable(user, tweet, hr, minute, weight):
+     if not exists(user, tweet):
+          query = ("INSERT INTO tweets VALUES (?, ?, ?, ?)")
+          c.execute(query, (user, tweet, hr, minute))
+     db.commit()
+     db.close()
 
 def isEnglish(text):
      d = enchant.Dict("en_US")
@@ -38,9 +69,10 @@ def utcToLocal(hr, minute, tz):
      user_tz = local_tz.normalize(local_dt)
      return [user_tz.hour, user_tz.minute]
 
-def quench(tweet, hasImage):
+def quench(user, tweet, hasImage):
      utcT = calcTime(tweet, hasImage)
+     addToTable(user, tweet, utcT[0], utcT[1])
      return utcToLocal(utcT[0], utcT[1], "US/Eastern")
 
 if __name__ == '__main__':
-    print quench("Donald Trump will never be my president", False);
+    print quench(user, "Donald Trump will never be my president", False);
