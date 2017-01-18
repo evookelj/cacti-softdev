@@ -45,3 +45,4 @@ angelaY --2017-01-17 12:30
 emmaV & yvonneC -- 2017-01-18 12:30
 	start adding tweets to database
 	add checking for tweet duplicates, not substantial enough
+	incorporate db fully into quench and fix app.py calling
