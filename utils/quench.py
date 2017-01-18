@@ -3,29 +3,36 @@ import textprocess, twitter, enchant, pytz, datetime
 from sqlite3 import connect
 
 f = "data/quench.db"
-db = connect(f)
-c = db.cursor()
 
 # TABLE tweets
 # TEXT handle, TEXT tweet, INT hr, INT minute
 
-def createTable():
-     c.execute("CREATE TABLE tweets (handle TEXT, tweet TEXT, hr INT, minute INT");
+def checkCreateTable():
+     db = connect(f)
+     c = db.cursor()
+     try:
+          c.execute("SELECT * FROM tweets")
+     except:
+          c.execute("CREATE TABLE tweets (handle TEXT, tweet TEXT, hr INT, minute INT)");
      db.commit()
      db.close()
 
 def exists(user, tweet):
+     db = connect(f)
+     c = db.cursor()
      query = "SELECT hr FROM tweets WHERE handle=? and tweet=?"
-     c.execute(query, (user, tweet))
+     sel = c.execute(query, (user, tweet))
+     retVal = False
      for record in sel:
-          db.commit()
-          db.close()
-          return True
+          retVal = True
      db.commit()
      db.close()
-     return False
+     return retVal
 
-def addToTable(user, tweet, hr, minute, weight):
+def addToTable(user, tweet, hr, minute):
+     db = connect(f)
+     c = db.cursor()
+     checkCreateTable()
      if not exists(user, tweet):
           query = ("INSERT INTO tweets VALUES (?, ?, ?, ?)")
           c.execute(query, (user, tweet, hr, minute))
@@ -74,10 +81,15 @@ def utcToLocal(hr, minute, tz):
 
 def quench(user, tweet, hasImage):
      utcT = calcTime(tweet, hasImage)
-     if utcT[0] == []:
-          return "Not enough data available/not a substantial enough tweet"
      addToTable(user, tweet, utcT[0], utcT[1])
      return utcToLocal(utcT[0], utcT[1], "US/Eastern")
 
 if __name__ == '__main__':
-    print quench(user, "Donald Trump will never be my president", False);
+     print quench("user", "Donald Trump will never be my president", False);
+     db = connect(f)
+     c = db.cursor()
+     sel = c.execute("SELECT * FROM tweets");
+     for record in sel:
+          print record
+     db.commit()
+     db.close()
