@@ -38,6 +38,8 @@ def logout():
 @app.route("/tweet/", methods=['POST'])
 def tweet():
     ui=request.form['tweet']
+    if len(ui)>140:
+        return render_template("dashboard.html", error="Please enter a potential tweet that fits within the 140 character limit")
     opt=quench.calcTime(ui, False)
     return render_template("results.html", message=ui, time=str(opt[0])+":"+str(opt[1]))
 

@@ -2,7 +2,8 @@
 {% block content %}
 
 <form method="POST" action="/tweet/">
-  <input name="tweet" type="text" placeholder="Find the optimal time for your tweet" />
+  {{error}}
+  <input name="tweet" type="text" placeholder="Find optimal time" />
   <br>
   <button type="submit">Quench!</button>
 </form>
