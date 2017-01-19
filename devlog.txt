@@ -46,3 +46,6 @@ emmaV & yvonneC -- 2017-01-18 12:30
 	start adding tweets to database
 	add checking for tweet duplicates, not substantial enough
 	incorporate db fully into quench and fix app.py calling
+yvonneC & angelaY -- 2017-01-18 12:30
+	started working on oauth and implementing sign in with twitter
+	
