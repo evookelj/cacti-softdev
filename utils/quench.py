@@ -57,16 +57,17 @@ def calcTime(tweet, hasImage):
      totWeight = float(0)
      for data in datas:
           if isEnglish(data['text']):
-               weight =  textprocess.relevancyWeight(tweetPhrase, tweetTag, tweet, data['text'], False)
-               if weight != 0:
+               wordWeight =  textprocess.relevancyWeight(tweetPhrase, tweetTag, tweet, data['text'], False)
+               if wordWeight != 0:
                     gotten.append({
                          'time': data['time'],
-                         'weight': weight
+                         'weight': wordWeight,
+                         #'favorites': int(data['retweet_count'])
                     })
                     optHr += data['time'][0]*weight
                     optMin += data['time'][1]*weight
                     totWeight += weight
-     den = totWeight
+     den = totWeight#*len(gotten)
      if den != 0:
           return [[int(optHr/den), int(optMin/den)], gotten]
      else:
