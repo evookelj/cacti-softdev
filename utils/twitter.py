@@ -20,6 +20,9 @@ timeline_endpoint = "https://api.twitter.com/1.1/search/tweets.json?"
 count = 20
 addon = "lang=en&count=%d"%(count)
 
+
+
+
 def addSearchTerm(term):
     global addon
     pre = "&q="
