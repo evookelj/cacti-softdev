@@ -60,11 +60,12 @@ def get():
         return []
     for tweet in tweets['statuses']:
         data.append({
-                'text': tweet['text'],
-                'favoriteCount': tweet['favorite_count'],
-                'retweeted': tweet['retweeted'],
-                'time': formatTwTime(tweet['created_at'])
-            })
+            'text': tweet['text'],
+            'favoriteCount': tweet['favorite_count'],
+            'retweetCount': tweet['retweet_count'],
+            'followerCount': tweet['user']['followers_count'],
+            'time': formatTwTime(tweet['created_at'])
+        })
     addon = "lang=en&count=%d"%(count)
     return data
 

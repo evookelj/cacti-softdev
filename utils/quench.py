@@ -59,10 +59,16 @@ def calcTime(tweet, hasImage):
           if isEnglish(data['text']):
                wordWeight =  textprocess.relevancyWeight(tweetPhrase, tweetTag, tweet, data['text'], False)
                if wordWeight != 0:
+                    #engagement:favorites+RT+replies/followers
+                    engagement = float(data['favoriteCount']+data['retweetCount'] * 1000)
+                    engagement /= data['followerCount']
+                    if (engagement > 1):
+                         engagement = 1
+                    print "Engagement: %f"%(engagement)
+                    weight = (wordWeight*.5) + (engagement*.5)
                     gotten.append({
                          'time': data['time'],
-                         'weight': wordWeight,
-                         #'favorites': int(data['retweet_count'])
+                         'weight': weight
                     })
                     optHr += data['time'][0]*weight
                     optMin += data['time'][1]*weight
@@ -81,9 +87,10 @@ def utcToLocal(hr, minute, tz):
      return [user_tz.hour, user_tz.minute]
 
 def quench(user, tweet, hasImage):
-     utcT = calcTime(tweet, hasImage)[0]
+     clc = calcTime(tweet, hasImage)
+     utcT = clc[0]
      addToTable(user, tweet, utcT[0], utcT[1])
-     tm = [ utcToLocal(utcT[0], utcT[1], "US/Eastern"), utcT[1] ]
+     tm = [ utcToLocal(utcT[0], utcT[1], "US/Eastern"), clc[1] ]
      return tm
 
 if __name__ == '__main__':
