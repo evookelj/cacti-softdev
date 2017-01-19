@@ -68,9 +68,9 @@ def calcTime(tweet, hasImage):
                     totWeight += weight
      den = totWeight
      if den != 0:
-          return [int(optHr/den), int(optMin/den)]
+          return [[int(optHr/den), int(optMin/den)], gotten]
      else:
-          return [0,0]
+          return [ [0,0], gotten ]
 
 def utcToLocal(hr, minute, tz):
      local_tz = pytz.timezone(tz)
@@ -80,16 +80,14 @@ def utcToLocal(hr, minute, tz):
      return [user_tz.hour, user_tz.minute]
 
 def quench(user, tweet, hasImage):
-     utcT = calcTime(tweet, hasImage)
+     utcT = calcTime(tweet, hasImage)[0]
      addToTable(user, tweet, utcT[0], utcT[1])
-     return utcToLocal(utcT[0], utcT[1], "US/Eastern")
+     tm = [ utcToLocal(utcT[0], utcT[1], "US/Eastern"), utcT[1] ]
+     return tm
 
 if __name__ == '__main__':
      print quench("user", "Donald Trump will never be my president", False);
      db = connect(f)
      c = db.cursor()
-     sel = c.execute("SELECT * FROM tweets");
-     for record in sel:
-          print record
      db.commit()
      db.close()

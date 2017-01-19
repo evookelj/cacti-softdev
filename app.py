@@ -40,7 +40,9 @@ def tweet():
     ui=request.form['tweet']
     if len(ui)>140:
         return render_template("dashboard.html", error="Please enter a potential tweet that fits within the 140 character limit")
-    opt=quench.quench(session["username"],ui, False)
+    results=quench.quench(session["username"],ui, False)[0]
+    opt = results[0]
+    data = results[1]
     return render_template("results.html", message=ui, time=str(opt[0])+":"+str(opt[1]))
 
 if __name__ == '__main__':
