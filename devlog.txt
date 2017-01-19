@@ -49,3 +49,5 @@ emmaV & yvonneC -- 2017-01-18 12:30
 yvonneC & angelaY -- 2017-01-18 12:30
 	started working on oauth and implementing sign in with twitter
 	
+emmaV -- 2017-01-19 15:35
+      - Incorporate engagement into weighting
