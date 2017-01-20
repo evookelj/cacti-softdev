@@ -17,11 +17,8 @@ access_token = oauth.Token(key=ACCESS_KEY, secret=ACCESS_SECRET)
 client = oauth.Client(consumer, access_token)
 
 timeline_endpoint = "https://api.twitter.com/1.1/search/tweets.json?"
-count = 20
-addon = "lang=en&count=%d"%(count)
-
-
-
+count = 100
+addon = "lang=en&count=%s"%(count)
 
 def addSearchTerm(term):
     global addon
@@ -58,9 +55,12 @@ def get():
     if 'errors' in tweets.keys():
         print tweets['errors'][0]['message']
         return []
+    print len(tweets['statuses'])
     for tweet in tweets['statuses']:
-        engagement = float(tweet['favorite_count']+tweet['retweet_count'])
+        engagement = float(tweet['favorite_count']+tweet['retweet_count'])*100
         engagement /= tweet['user']['followers_count']
+        if engagement > 1:
+            engagement = 1
         cntns = 'media' in tweet['entities'] or len(tweet['entities']['urls']) > 0
         if engagement > .099:
             data.append({
@@ -71,8 +71,3 @@ def get():
             })
     addon = "lang=en&count=%d"%(count)
     return data
-
-if (__name__ == "__main__"):
-    addSearchTerm("puppy");
-    get()
-

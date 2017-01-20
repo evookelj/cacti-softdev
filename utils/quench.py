@@ -48,7 +48,7 @@ def calcTime(tweet, hasImage):
 
      tweetTag = textprocess.tag(tweet)
      tweetPhrase = textprocess.phrase(tweet)
-     fromTweet = list(set(tweetTag) | set(tweetPhrase))
+     fromTweet = tweetPhrase
      gotten = []
      twitter.addSearchList(fromTweet)
      datas = twitter.get()
@@ -61,8 +61,6 @@ def calcTime(tweet, hasImage):
                if wordWeight != 0:
                     engagement = data['engagement']
                     weight = float((wordWeight*.5) + (engagement*.5))
-                    print "Time: " + str(data['time'])
-                    print "Weight: " + str(weight) + "\n"
                     gotten.append({
                          'time': data['time'],
                          'weight': weight
@@ -70,10 +68,8 @@ def calcTime(tweet, hasImage):
                     optHr += data['time'][0]*weight
                     optMin += data['time'][1]*weight
                     totWeight += float(weight)
-     den = totWeight#*len(gotten)
-     print "den: %d"%(den)
-     if den != 0:
-          return [[int(optHr/den), int(optMin/den)], gotten]
+     if totWeight != 0:
+          return [[int(optHr/totWeight), int(optMin/totWeight)], gotten]
      else:
           return [ [0,0], gotten ]
 
@@ -92,4 +88,4 @@ def quench(user, tweet, hasImage):
      return tm
 
 if __name__ == '__main__':
-     quench("user", "Donald Trump will never be my president", False);
+     quench("user", "Programming is so great!", False);
