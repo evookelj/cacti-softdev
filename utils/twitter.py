@@ -62,7 +62,7 @@ def get():
         if engagement > 1:
             engagement = 1
         cntns = 'media' in tweet['entities'] or len(tweet['entities']['urls']) > 0
-        if engagement > .099:
+        if engagement > .0099:
             data.append({
                 'text': tweet['text'],
                 'engagement': engagement,
