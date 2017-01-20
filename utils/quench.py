@@ -59,21 +59,18 @@ def calcTime(tweet, hasImage):
           if isEnglish(data['text']):
                wordWeight =  textprocess.relevancyWeight(tweetPhrase, tweetTag, tweet, data['text'], False)
                if wordWeight != 0:
-                    #engagement:favorites+RT+replies/followers
-                    engagement = float(data['favoriteCount']+data['retweetCount'] * 1000)
-                    engagement /= data['followerCount']
-                    if (engagement > 1):
-                         engagement = 1
-                    print "Engagement: %f"%(engagement)
-                    weight = (wordWeight*.5) + (engagement*.5)
+                    weight = float((wordWeight*.5) + (engagement*.5))
+                    print "Time: " + str(data['time'])
+                    print "Weight: " + str(weight) + "\n"
                     gotten.append({
                          'time': data['time'],
                          'weight': weight
                     })
                     optHr += data['time'][0]*weight
                     optMin += data['time'][1]*weight
-                    totWeight += weight
+                    totWeight += float(weight)
      den = totWeight#*len(gotten)
+     print "den: %d"%(den)
      if den != 0:
           return [[int(optHr/den), int(optMin/den)], gotten]
      else:
@@ -94,8 +91,4 @@ def quench(user, tweet, hasImage):
      return tm
 
 if __name__ == '__main__':
-     print quench("user", "Donald Trump will never be my president", False);
-     db = connect(f)
-     c = db.cursor()
-     db.commit()
-     db.close()
+     quench("user", "Donald Trump will never be my president", False);

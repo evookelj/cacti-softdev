@@ -59,13 +59,14 @@ def get():
         print tweets['errors'][0]['message']
         return []
     for tweet in tweets['statuses']:
-        data.append({
-            'text': tweet['text'],
-            'favoriteCount': tweet['favorite_count'],
-            'retweetCount': tweet['retweet_count'],
-            'followerCount': tweet['user']['followers_count'],
-            'time': formatTwTime(tweet['created_at'])
-        })
+        engagement = float(tweet['favorite_count']+tweet['retweet_count'])
+        engagement /= tweet['user']['followers_count']
+        if engagement > .099:
+            data.append({
+                'text': tweet['text'],
+                'engagement': engagement
+                'time': formatTwTime(tweet['created_at'])
+            })
     addon = "lang=en&count=%d"%(count)
     return data
 
