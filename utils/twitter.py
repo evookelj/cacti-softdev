@@ -61,11 +61,13 @@ def get():
     for tweet in tweets['statuses']:
         engagement = float(tweet['favorite_count']+tweet['retweet_count'])
         engagement /= tweet['user']['followers_count']
+        cntns = 'media' in tweet['entities'] or len(tweet['entities']['urls']) > 0
         if engagement > .099:
             data.append({
                 'text': tweet['text'],
-                'engagement': engagement
-                'time': formatTwTime(tweet['created_at'])
+                'engagement': engagement,
+                'time': formatTwTime(tweet['created_at']),
+                'cntns': cntns
             })
     addon = "lang=en&count=%d"%(count)
     return data

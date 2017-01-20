@@ -59,6 +59,7 @@ def calcTime(tweet, hasImage):
           if isEnglish(data['text']):
                wordWeight =  textprocess.relevancyWeight(tweetPhrase, tweetTag, tweet, data['text'], False)
                if wordWeight != 0:
+                    engagement = data['engagement']
                     weight = float((wordWeight*.5) + (engagement*.5))
                     print "Time: " + str(data['time'])
                     print "Weight: " + str(weight) + "\n"
