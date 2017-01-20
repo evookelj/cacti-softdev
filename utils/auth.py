@@ -3,6 +3,23 @@
 from hashlib import sha1
 from sqlite3 import connect
 from os import urandom
+import oauth2 as oauth
+import urllib
+
+t = open("tw.txt","r")
+keys = t.read().split("\n")
+CONSUMER_KEY = keys[0]
+CONSUMER_SECRET = keys[1]
+ACCESS_KEY = keys[2]
+ACCESS_SECRET = keys[3]
+t.close()
+
+consumer = oauth.Consumer(key=CONSUMER_KEY, secret=CONSUMER_SECRET)
+access_token = oauth.Token(key=ACCESS_KEY, secret=ACCESS_SECRET)
+client = oauth.Client(consumer, access_token)
+
+def requestLink():
+    link = "https://api.twitter.com/oauth/authorize?="
 
 f = "data/quench.db"
 db = connect(f)
@@ -87,3 +104,4 @@ def duplicate(user):#checks if username already exists
     db.commit()
     db.close()
     return retVal
+    
