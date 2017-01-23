@@ -23,23 +23,35 @@ request_token_url = 'https://api.twitter.com/oauth/request_token'
 access_token_url = 'https://api.twitter.com/oauth/access_token'
 authorize_url = 'https://api.twitter.com/oauth/authorize'
 
-def getRequestLink():
+def getRequestToken():
     info = client.request(request_token_url, "GET")
     info = list(info)
     info[0] = json.dumps(info[0])
     info = ';'.join(info)
     request_token = dict(urlparse.parse_qsl(info))
-    print request_token['oauth_token']
-    print request_token['oauth_token_secret']
-    return authorize_url + "?oauth_token=%s"%(request_token['oauth_token'])
+    #print request_token['oauth_token']
+    #print request_token['oauth_token_secret']
+    return request_token
+
+request_link = authorize_url + "?oauth_token=%s"%(getRequestToken()['oauth_token'])
 
 def getAccessToken():
+    accepted = 'n'
+    while accepted.lower() == 'n':
+        accepted = raw_input('Have you authorized me? (y/n) ')
+        oauth_verifier = raw_input('What is the PIN? ')
+
+    request_token = getRequestToken()
     token = oauth.Token(request_token['oauth_token'],request_token['oauth_token_secret'])
     token.set_verifier(oauth_verifier)
     client = oauth.Client(consumer, token)
     info = client.request(access_token_url, "POST")
+    info = list(info)
+    info[0] = json.dumps(info[0])
+    info = ';'.join(info)
     access_token = dict(urlparse.parse_qsl(info))
-    print access_token
+    print access_token['oauth_token']
+    print access_token['oauth_token_secret']
     return access_token['oauth_token']
 
 f = "../data/quench.db"
@@ -67,8 +79,8 @@ def login(user, password):
             return ""#no error message because it will be rerouted to mainpage
         else:
             return "User login has failed. Invalid password"#error message
-    db.commit()
-    db.close()
+        db.commit()
+        db.close()
     return "Username does not exist"#error message
 
 def register(user, ps1, ps2):
@@ -80,8 +92,8 @@ def register(user, ps1, ps2):
         c.execute("SELECT * FROM USERS")
     except: #if not, this is the first user!
         c.execute("CREATE TABLE users (user TEXT, salt TEXT, password TEXT, clientToken TEXT)")
-    db.commit()
-    db.close()
+        db.commit()
+        db.close()
     return regMain(user, ps1)#register helper
 
 def regMain(user, password):#register helper
@@ -93,7 +105,7 @@ def regMain(user, password):#register helper
         print salt
         query = ("INSERT INTO users VALUES (?, ?, ?, ?)")
         password = sha1(password + salt).hexdigest()
-        c.execute(query, (user, salt, password, "na"))
+        c.execute(query, (user, salt, password, getAccessToken()['oauth_token']))
         db.commit()
         db.close()
         return "Account created!"
@@ -122,10 +134,10 @@ def duplicate(user):#checks if username already exists
     retVal = False
     for record in sel:
         retVal = True
-    db.commit()
-    db.close()
+        db.commit()
+        db.close()
     return retVal
 
 if __name__ == '__main__':
-    getRequestLink()
+    getRequestToken()
     getAccessToken()
