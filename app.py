@@ -30,12 +30,11 @@ def authenticate():
             return redirect(url_for('home'))
         return render_template("welcome.html", logerror=text)
 
-'''
+
 @app.route("/auth/", methods=['POST'])
 def oauth():
-    url = "https://api.twitter.com/oauth/request_token"
-    return render_template("results.html",url=url)
-'''
+    url = auth.getRequestLink()
+    return render_template("dashboard.html",url=url)
 
 @app.route("/logout/", methods=['POST'])
 def logout():

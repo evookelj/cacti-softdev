@@ -33,7 +33,8 @@ def getRequestToken():
     #print request_token['oauth_token_secret']
     return request_token
 
-request_link = authorize_url + "?oauth_token=%s"%(getRequestToken()['oauth_token'])
+def getRequestLink(): 
+    return authorize_url + "?oauth_token=%s"%(getRequestToken()['oauth_token'])
 
 def getAccessToken():
     accepted = 'n'

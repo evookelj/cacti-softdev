@@ -56,3 +56,5 @@ yvonneC -- 2017-01-23 2:26
 	used oauth to retrieve data from twitter
 	wrote code for adding access token to database
 	encountered problem with retrieving access token for user -- probably needs to be tested with the main website
+yvonneC -- 2017-01-23 11:00
+	continued implementing oauth
