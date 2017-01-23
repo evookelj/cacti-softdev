@@ -4,9 +4,11 @@ from hashlib import sha1
 from sqlite3 import connect
 from os import urandom
 import oauth2 as oauth
-import urllib
+import urllib, urllib2
+import urlparse
+import json
 
-t = open("tw.txt","r")
+t = open("../tw.txt","r")
 keys = t.read().split("\n")
 CONSUMER_KEY = keys[0]
 CONSUMER_SECRET = keys[1]
@@ -15,13 +17,32 @@ ACCESS_SECRET = keys[3]
 t.close()
 
 consumer = oauth.Consumer(key=CONSUMER_KEY, secret=CONSUMER_SECRET)
-access_token = oauth.Token(key=ACCESS_KEY, secret=ACCESS_SECRET)
-client = oauth.Client(consumer, access_token)
+client = oauth.Client(consumer)
 
-def requestLink():
-    link = "https://api.twitter.com/oauth/authorize?="
+request_token_url = 'https://api.twitter.com/oauth/request_token'
+access_token_url = 'https://api.twitter.com/oauth/access_token'
+authorize_url = 'https://api.twitter.com/oauth/authorize'
 
-f = "data/quench.db"
+def getRequestLink():
+    info = client.request(request_token_url, "GET")
+    info = list(info)
+    info[0] = json.dumps(info[0])
+    info = ';'.join(info)
+    request_token = dict(urlparse.parse_qsl(info))
+    print request_token['oauth_token']
+    print request_token['oauth_token_secret']
+    return authorize_url + "?oauth_token=%s"%(request_token['oauth_token'])
+
+def getAccessToken():
+    token = oauth.Token(request_token['oauth_token'],request_token['oauth_token_secret'])
+    token.set_verifier(oauth_verifier)
+    client = oauth.Client(consumer, token)
+    info = client.request(access_token_url, "POST")
+    access_token = dict(urlparse.parse_qsl(info))
+    print access_token
+    return access_token['oauth_token']
+
+f = "../data/quench.db"
 db = connect(f)
 c = db.cursor()
 
@@ -104,4 +125,7 @@ def duplicate(user):#checks if username already exists
     db.commit()
     db.close()
     return retVal
-    
+
+if __name__ == '__main__':
+    getRequestLink()
+    getAccessToken()

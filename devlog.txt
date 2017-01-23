@@ -52,3 +52,6 @@ yvonneC & angelaY -- 2017-01-18 12:30
 emmaV -- 2017-01-19 15:35
       - Incorporate engagement into weighting
       - More efficiently filter getting tweets by engagement
+yvonneC -- 2017-01-23 1:11
+	used oauth to retrieve data from twitter
+	added access token to database
