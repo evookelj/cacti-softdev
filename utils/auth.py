@@ -8,7 +8,7 @@ import urllib, urllib2
 import urlparse
 import json
 
-t = open("../tw.txt","r")
+t = open("tw.txt","r")
 keys = t.read().split("\n")
 CONSUMER_KEY = keys[0]
 CONSUMER_SECRET = keys[1]
@@ -55,7 +55,7 @@ def getAccessToken():
     print access_token['oauth_token_secret']
     return access_token['oauth_token']
 
-f = "../data/quench.db"
+f = "data/quench.db"
 db = connect(f)
 c = db.cursor()
 
