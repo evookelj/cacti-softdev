@@ -5,7 +5,7 @@
   <div class="col-md-4">
       <h3>Tweet something!</h3>
   </div>
-  {{error}}
+  {{message}}
 
       <textarea rows="2" cols="100" name="tweet">
       Enter your tweet here...
@@ -18,6 +18,12 @@
 </form>
 
 <form method = "POST" action = "/auth/">
+  <div class="pull-right">
+    <button type="submit">Authenticate my account!</button>
+  </div>
+</form>
+
+<form method = "POST" action = "/tweeter/">
   <div class="pull-right">
     <button type="submit">Tweet for me!</button>
   </div>

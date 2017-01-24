@@ -11,20 +11,14 @@ def home():
     else:
         return render_template("dashboard.html")
 
-@app.route("/authenticate/", methods=['GET', 'POST'])
+@app.route("/authenticate/", methods=['POST'])
 def authenticate():
     un = request.form["handle"]
-
-    new_token = request.form('oauth_token')
-    #print new_token
-    verifier = request.form('oauth_verifier')
-    #print verifier
-    access = auth.getAccessToken(new_token, verifier)
     
     if request.form["type"] == "register":
         ps1 = request.form["pass1"]
         ps2 = request.form["pass2"]
-        regRet = auth.register(un, ps1, ps2, access[0], access[1])#returns an error/success message
+        regRet = auth.register(un, ps1, ps2)#returns an error/success message
         return render_template("welcome.html", regerror=regRet)
 
     else:
@@ -40,7 +34,25 @@ def authenticate():
 @app.route("/auth/", methods=['POST'])
 def oauth():
     url = auth.getRedirectLink()
+    if auth.updated(session["username"]):
+        return render_template("dashboard.html", message = "Unable to authenticate")
     return redirect(url)
+
+@app.route("/callback/", methods=['GET', 'POST'])
+def callback():
+    new_token = request.args.get('oauth_token')
+    #print new_token
+    verifier = request.args.get('oauth_verifier')
+    #print verifier
+    access = auth.getAccessToken(new_token, verifier)
+    user = session["username"]
+    resp = auth.update(access, user)
+    
+    return render_template("dashboard.html", message = resp)
+
+@app.route("/tweeter/", methods=['POST'])
+def tweetForMe():
+    return render_template("dashboard.html")
 
 @app.route("/logout/", methods=['POST'])
 def logout():
@@ -51,7 +63,7 @@ def logout():
 def tweet():
     ui=request.form['tweet']
     if len(ui)>140:
-        return render_template("dashboard.html", error="Please enter a potential tweet that fits within the 140 character limit")
+        return render_template("dashboard.html", message="Please enter a potential tweet that fits within the 140 character limit")
     results=quench.quench(session["username"],ui, False)
     opt = results[0]
     data = results[1]

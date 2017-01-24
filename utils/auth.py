@@ -72,7 +72,7 @@ def getAccessToken(new_token, verifier):
     info = ';'.join(info)
     access_token = dict(urlparse.parse_qsl(info))
     
-    print access_token
+    #print access_token
     #print access_token['oauth_token']
     #print access_token['oauth_token_secret']
 
@@ -107,7 +107,7 @@ def login(user, password):
         db.close()
     return "Username does not exist" #error message
 
-def register(user, ps1, ps2, at1, at2):
+def register(user, ps1, ps2):
     if not ps1 == ps2:
         return "Passwords not the same."
     db = connect(f)
@@ -118,9 +118,9 @@ def register(user, ps1, ps2, at1, at2):
         c.execute("CREATE TABLE users (user TEXT, salt TEXT, password TEXT, accessToken TEXT, secretToken TEXT)")
         db.commit()
         db.close()
-    return regMain(user, ps1, at1, at2)#register helper
+    return regMain(user, ps1)#register helper
 
-def regMain(user, password, token1, token2):#register helper
+def regMain(user, password):#register helper
     db = connect(f)
     c = db.cursor()
     reg = regReqs(user, password)
@@ -129,13 +129,47 @@ def regMain(user, password, token1, token2):#register helper
         print salt
         query = ("INSERT INTO users VALUES (?, ?, ?, ?, ?)")
         password = sha1(password + salt).hexdigest()
-        c.execute(query, (user, salt, password, token1, token2))
+        c.execute(query, (user, salt, password, "tbd", "tbd"))
         db.commit()
         db.close()
         return "Account created!"
     db.commit()
     db.close()
     return reg#return error message
+
+def update(tokens, user):
+    resp = verify(tokens)
+
+    db = connect(f)
+    c = db.cursor()
+    if resp == "": # no error message means db can be updated
+        query = ("UPDATE users SET accessToken=?, secretToken=? WHERE user=?")
+        c.execute(query, (tokens[0], tokens[1], user))
+        db.commit()
+        db.close()
+        return "account authenticated!"
+    db.commit()
+    db.close()
+    return resp
+
+def updated(user): #checks if the account is already authenticated
+
+    db = connect(f)
+    c = db.cursor()
+    query = ("SELECT accessToken, secretToken FROM users WHERE user =?")
+    result = c.execute(query, (user, ))
+    print result
+    for sel in result:
+        if sel == "tbd":
+            return False
+    return True
+
+def verify(tokens): #error message for tokens
+    if not tokens:
+        return "Authentication Unsuccessful"
+    if len(tokens) == 1:
+        return "Missing Tokens to authenticate"
+    return ""
 
 def regReqs(user, password):      #error message generator
     if len(password) < 8 or len(password) > 32:
