@@ -27,13 +27,9 @@ var Graphing = (function (window) {
     var sketchArrow = function (ctx, x, y, x1, y1) {
         ctx.moveTo(x, y);
         var theta = Math.atan2(y1 - y, x1 - x);
-        console.log("theta", theta);
+        console.log("theta", theta, "from", x, y, "to", x1, y1);
         // Draw arrow stem
         ctx.lineTo(x1, y1);
-        console.log(
-                x1 - Math.cos(theta - arrow_head_angle) * arrow_head_side_len,
-                y1 - Math.sin(theta - arrow_head_angle) * arrow_head_side_len
-                );
         ctx.lineTo(
                 x1 - Math.cos(theta - arrow_head_angle) * arrow_head_side_len,
                 y1 - Math.sin(theta - arrow_head_angle) * arrow_head_side_len
@@ -55,6 +51,7 @@ var Graphing = (function (window) {
     };
 
     var drawScatterplot = function (ctx, x, y, w, h, data) {
+        console.log(data);
         ctx.save();
         ctx.beginPath();
         sketchAxes(ctx, x, y, w, h);
@@ -66,7 +63,7 @@ var Graphing = (function (window) {
                 for (j = 0; j < data[t].length; j++) {
                     px = x + t / minutes_in_day * w;
                     // data[t][j] is the weight for this post, from 0.0 to 1.0
-                    py = y - data[t][j] * h;
+                    py = y + h - data[t][j] * h;
                     ctx.moveTo(px, py);
                     ctx.arc(px, py, 3, 0, 2 * Math.PI, false);
                 }
@@ -77,10 +74,20 @@ var Graphing = (function (window) {
     };
     var canvas = document.getElementById("graph");
     var ctx = canvas.getContext('2d');
-    ctx.beginPath();
-    sketchArrow(ctx, 40, 40, 70, 70);
-    ctx.stroke();
-    drawHistogram(ctx, 10, 10, 100, 100);
+    drawScatterplot(ctx, 10, 10, 400, 100, sortDatapoints([
+        {
+            "time": 123,
+            "weight": 0.6
+        },
+        {
+            "time": 123,
+            "weight": 0.8
+        },
+        {
+            "time": 588,
+            "weight": 0.3
+        },
+    ]));
 
     return Object.freeze({
         sortDatapoints: sortDatapoints,
