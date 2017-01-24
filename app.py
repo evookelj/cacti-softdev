@@ -33,7 +33,7 @@ def authenticate():
 
 @app.route("/auth/", methods=['POST'])
 def oauth():
-    url = auth.getRequestLink()
+    url = auth.getRedirectLink()
     return render_template("dashboard.html",url=url)
 
 @app.route("/logout/", methods=['POST'])

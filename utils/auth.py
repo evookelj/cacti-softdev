@@ -24,18 +24,28 @@ access_token_url = 'https://api.twitter.com/oauth/access_token'
 authorize_url = 'https://api.twitter.com/oauth/authorize'
 
 def getRequestToken():
-    info = client.request(request_token_url, "GET")
-    info = list(info)
-    info[0] = json.dumps(info[0])
+    resp, info = client.request(request_token_url, "GET")
+    if resp['status'] != "200":
+        raise Exception("Error: " + resp['status'])
+    
+    resp = json.dumps(resp)
+    info = [resp, info]
     info = ';'.join(info)
     request_token = dict(urlparse.parse_qsl(info))
+    
     #print request_token['oauth_token']
     #print request_token['oauth_token_secret']
-    print request_token
-    return request_token
+    #print request_token
 
-def getRequestLink(): 
+    if request_token['oauth_callback_confirmed']:
+        return request_token
+    else:
+        raise Exception("oauth_callback not true")
+
+def getRedirectLink(): 
     return authorize_url + "?oauth_token=%s"%(getRequestToken()['oauth_token'])
+
+#print getRedirectLink()
 
 def getAccessToken():
     '''
@@ -54,9 +64,9 @@ def getAccessToken():
     info[0] = json.dumps(info[0])
     info = ';'.join(info)
     access_token = dict(urlparse.parse_qsl(info))
-    print "break"
-    print access_token
-    print access_token['oauth_token_secret']
+    #print "break"
+    #print access_token
+    #print access_token['oauth_token_secret']
 
     return access_token
 '''
@@ -162,4 +172,5 @@ def duplicate(user):#checks if username already exists
 
 if __name__ == '__main__':
     getRequestToken()
+    getRedirectLink()
     getAccessToken()
