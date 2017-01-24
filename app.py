@@ -34,7 +34,9 @@ def authenticate():
 @app.route("/auth/", methods=['POST'])
 def oauth():
     url = auth.getRedirectLink()
-    return render_template("dashboard.html",url=url)
+    print url
+    print "it's not printing my statements :("
+    return render_template("dashboard.html", url = url)
 
 @app.route("/logout/", methods=['POST'])
 def logout():

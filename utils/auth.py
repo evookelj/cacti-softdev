@@ -42,18 +42,20 @@ def getRequestToken():
     else:
         raise Exception("oauth_callback not true")
 
-def getRedirectLink(): 
-    return authorize_url + "?oauth_token=%s"%(getRequestToken()['oauth_token'])
+def getRedirectLink():
+    content = { 'oauth_consumer_key': CONSUMER_KEY,
+                'oauth_nonce': getRequestToken()['oauth_nonce'],
+                'oauth_signature': getRequestToken()['oauth_signature'],
+                'oauth_signature_method': "HMAC-SHA1",
+                'oauth_timestamp': getRequestToken()['oauth_timestamp'],
+                'oauth_token': getRequestToken()['oauth_token'],
+                'oauth_version': getRequestToken()['oauth_version'] }
+    
+    return authorize_url + "?" + urllib.urlencode(content)
 
 #print getRedirectLink()
 
 def getAccessToken():
-    '''
-    accepted = 'n'
-    while accepted.lower() == 'n':
-        accepted = raw_input('Have you authorized me? (y/n) ')
-        oauth_verifier = raw_input('What is the PIN? ')
-    '''
 
     request_token = getRequestToken()
     token = oauth.Token(request_token['oauth_token'],request_token['oauth_token_secret'])
@@ -69,21 +71,6 @@ def getAccessToken():
     #print access_token['oauth_token_secret']
 
     return access_token
-'''
-def getAccessLink():
-
-    content = { oauth_consumer_key = CONSUMER_KEY,
-                oauth_nonce = getRequestToken()['oauth_nonce'],
-                oauth_signature = getRequestToken()['oauth_signature'],
-                oauth_signature_method = "HMAC-SHA1",
-                oauth_timestamp = getRequestToken()['date'],
-                oauth_token = getRequestToken()['oauth_token']
-                oauth_version = "1.0"
-                oauth_callback = }
-
-    print authorize_url + "?" + urllib.urlencode(content)
-    
-    return authorize_url + "?" + urllib.urlencode(content)
 
 f = "data/quench.db"
 db = connect(f)
@@ -168,7 +155,7 @@ def duplicate(user):#checks if username already exists
         db.commit()
         db.close()
     return retVal
-'''
+
 
 if __name__ == '__main__':
     getRequestToken()

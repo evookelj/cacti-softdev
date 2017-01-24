@@ -15,10 +15,12 @@
   <button type="submit">Quench!</button>
 </div>
 
-<div class="pull-right">
-  <button type="submit"> <a href={{ url }}>Tweet for me!</a></button>
-</div>
+</form>
 
+<form method="POST" action="/auth/">
+  <div class="pull-right">
+    <button type="submit"> <a href={{ url }}>Tweet for me!</a></button>
+  </div>
 </form>
 
 {% endblock %}
