@@ -1,25 +1,20 @@
 {% extends "layout.html" %}
 {% block content %}
 
-Your tweet:
+<h4>Your tweet:</h4>
 {{message}}
-<br>
-Optimal time to post:
+<h4>Optimal time to post:</h4>
 {{time}}
 
-<br>
+<br><br>
 
 Try another tweet:
 <form method="POST" action="/tweet/">
     <textarea rows="4" cols="50" name="tweet">
-      Enter your tweet here...
-    </textarea>
+Enter your tweet here...
+</textarea>
   <button type="submit">Quench!</button>
 </form>
-<form method="POST" action="/auth/">
-  <button type="submit"> Tweet</button>
-</form>
-
 
 
 {%endblock%}
