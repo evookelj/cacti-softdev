@@ -27,12 +27,12 @@ def getRequestToken():
     resp, info = client.request(request_token_url, "GET")
     if resp['status'] != "200":
         raise Exception("Error: " + resp['status'])
-    
+
     resp = json.dumps(resp)
     info = [resp, info]
     info = ';'.join(info)
     request_token = dict(urlparse.parse_qsl(info))
-    
+
     #print request_token['oauth_token']
     #print request_token['oauth_token_secret']
     #print request_token
@@ -50,10 +50,10 @@ def getRedirectLink():
                 'oauth_timestamp': getRequestToken()['oauth_timestamp'],
                 'oauth_token': getRequestToken()['oauth_token'],
                 'oauth_version': getRequestToken()['oauth_version'] }
-    
+
     return authorize_url + "?" + urllib.urlencode(content)
 
-#print getRedirectLink()
+print getRedirectLink()
 
 def getAccessToken():
 
