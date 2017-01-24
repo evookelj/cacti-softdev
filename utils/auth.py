@@ -53,24 +53,38 @@ def getRedirectLink():
 
     return authorize_url + "?" + urllib.urlencode(content)
 
-print getRedirectLink()
+#print getRedirectLink()
 
+def getCallbackInfo():
+    link = "http://127.0.0.1:5000/"
+    parsed = urlparse.urlparse(link)
+    info = { 'new_token': urlparse.parse_qs(parsed.query)['oauth_token'],
+             'verifier': urlparse.parse_qs(parsed.query)['oauth_verifier'] }
+    return info
+    
 def getAccessToken():
-
     request_token = getRequestToken()
+    if getCallbackInfo()['new_token'] != request_token['oauth_token']:
+        raise Exception("new_token != oauth_token")
+    
     token = oauth.Token(request_token['oauth_token'],request_token['oauth_token_secret'])
-    #token.set_verifier(oauth_verifier)
+    token.set_verifier(getCallbackInfo()['verifier'])
     client = oauth.Client(consumer, token)
-    info = client.request(access_token_url, "POST")
-    info = list(info)
-    info[0] = json.dumps(info[0])
+    
+    resp, info = client.request(access_token_url, "POST")
+    if resp['status'] != "200":
+        raise Exception("Error: " + resp['status'])
+
+    resp = json.dumps(resp)
+    info = [resp, info]
     info = ';'.join(info)
     access_token = dict(urlparse.parse_qsl(info))
-    #print "break"
-    #print access_token
+    
+    print access_token
     #print access_token['oauth_token_secret']
 
     return access_token
+
 
 f = "data/quench.db"
 db = connect(f)
@@ -123,7 +137,7 @@ def regMain(user, password):#register helper
         print salt
         query = ("INSERT INTO users VALUES (?, ?, ?, ?)")
         password = sha1(password + salt).hexdigest()
-        c.execute(query, (user, salt, password, getAccessToken()['oauth_token']))
+        c.execute(query, (user, salt, password, "na"))
         db.commit()
         db.close()
         return "Account created!"
@@ -156,8 +170,8 @@ def duplicate(user):#checks if username already exists
         db.close()
     return retVal
 
-
 if __name__ == '__main__':
     getRequestToken()
     getRedirectLink()
+    getCallbackInfo()
     getAccessToken()

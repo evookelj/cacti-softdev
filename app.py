@@ -34,6 +34,7 @@ def authenticate():
 @app.route("/auth/", methods=['POST'])
 def oauth():
     url = auth.getRedirectLink()
+    print auth.getCallbackInfo()
     return redirect(url)
 
 @app.route("/logout/", methods=['POST'])
