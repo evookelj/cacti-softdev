@@ -59,18 +59,9 @@ def getRedirectLink():
 def getAccessToken(new_token, verifier):
     request_token = getRequestToken()
     
-    token = oauth.Token(request_token['oauth_token'],request_token['oauth_token_secret'])
+    token = oauth.Token(new_token, request_token['oauth_token_secret'])
     token.set_verifier(verifier)
     client = oauth.Client(consumer, token)
-
-    content = { 'oauth_consumer_key': CONSUMER_KEY,
-                'oauth_nonce': getRequestToken()['oauth_nonce'],
-                'oauth_signature': getRequestToken()['oauth_signature'],
-                'oauth_signature_method': "HMAC-SHA1",
-                'oauth_timestamp': getRequestToken()['oauth_timestamp'],
-                'oauth_token': new_token,
-                'oauth_version': getRequestToken()['oauth_version'],
-                'oauth_verifier': verifier }
                 
     resp, info = client.request(access_token_url, "POST")
     if resp['status'] != "200":
@@ -82,11 +73,10 @@ def getAccessToken(new_token, verifier):
     access_token = dict(urlparse.parse_qsl(info))
     
     print access_token
-    print access_token['oauth_token']
-    print access_token['oauth_token_secret']
+    #print access_token['oauth_token']
+    #print access_token['oauth_token_secret']
 
-    return access_token
-
+    return [access_token['oauth_token'], access_token['oauth_token_secret']]
 
 f = "data/quench.db"
 db = connect(f)
@@ -99,7 +89,7 @@ def login(user, password):
     try: #does table already exist?
         c.execute("SELECT * FROM USERS")
     except: #if not, this is the first user!
-        c.execute("CREATE TABLE users (user TEXT, salt TEXT, password TEXT, clientToken TEXT)")
+        c.execute("CREATE TABLE users (user TEXT, salt TEXT, password TEXT, accessToken TEXT, secretToken TEXT)")
 
     query = ("SELECT * FROM users WHERE user=?")
     sel = c.execute(query,(user,));
@@ -110,14 +100,14 @@ def login(user, password):
     for record in sel:
         password = sha1(password+record[1]).hexdigest()##record[1] is the salt
         if (password==record[2]):
-            return ""#no error message because it will be rerouted to mainpage
+            return "" #no error message because it will be rerouted to mainpage
         else:
-            return "User login has failed. Invalid password"#error message
+            return "User login has failed. Invalid password" #error message
         db.commit()
         db.close()
-    return "Username does not exist"#error message
+    return "Username does not exist" #error message
 
-def register(user, ps1, ps2):
+def register(user, ps1, ps2, at1, at2):
     if not ps1 == ps2:
         return "Passwords not the same."
     db = connect(f)
@@ -125,21 +115,21 @@ def register(user, ps1, ps2):
     try: #does table already exist?
         c.execute("SELECT * FROM USERS")
     except: #if not, this is the first user!
-        c.execute("CREATE TABLE users (user TEXT, salt TEXT, password TEXT, clientToken TEXT)")
+        c.execute("CREATE TABLE users (user TEXT, salt TEXT, password TEXT, accessToken TEXT, secretToken TEXT)")
         db.commit()
         db.close()
-    return regMain(user, ps1)#register helper
+    return regMain(user, ps1, at1, at2)#register helper
 
-def regMain(user, password):#register helper
+def regMain(user, password, token1, token2):#register helper
     db = connect(f)
     c = db.cursor()
     reg = regReqs(user, password)
     if reg == "": #if error message is blank then theres no problem, update database
         salt = urandom(10).encode('hex')
         print salt
-        query = ("INSERT INTO users VALUES (?, ?, ?, ?)")
+        query = ("INSERT INTO users VALUES (?, ?, ?, ?, ?)")
         password = sha1(password + salt).hexdigest()
-        c.execute(query, (user, salt, password, "na"))
+        c.execute(query, (user, salt, password, token1, token2))
         db.commit()
         db.close()
         return "Account created!"
