@@ -31,29 +31,49 @@ def getRequestToken():
     request_token = dict(urlparse.parse_qsl(info))
     #print request_token['oauth_token']
     #print request_token['oauth_token_secret']
+    print request_token
     return request_token
 
 def getRequestLink(): 
     return authorize_url + "?oauth_token=%s"%(getRequestToken()['oauth_token'])
 
 def getAccessToken():
+    '''
     accepted = 'n'
     while accepted.lower() == 'n':
         accepted = raw_input('Have you authorized me? (y/n) ')
         oauth_verifier = raw_input('What is the PIN? ')
+    '''
 
     request_token = getRequestToken()
     token = oauth.Token(request_token['oauth_token'],request_token['oauth_token_secret'])
-    token.set_verifier(oauth_verifier)
+    #token.set_verifier(oauth_verifier)
     client = oauth.Client(consumer, token)
     info = client.request(access_token_url, "POST")
     info = list(info)
     info[0] = json.dumps(info[0])
     info = ';'.join(info)
     access_token = dict(urlparse.parse_qsl(info))
-    print access_token['oauth_token']
+    print "break"
+    print access_token
     print access_token['oauth_token_secret']
-    return access_token['oauth_token']
+
+    return access_token
+'''
+def getAccessLink():
+
+    content = { oauth_consumer_key = CONSUMER_KEY,
+                oauth_nonce = getRequestToken()['oauth_nonce'],
+                oauth_signature = getRequestToken()['oauth_signature'],
+                oauth_signature_method = "HMAC-SHA1",
+                oauth_timestamp = getRequestToken()['date'],
+                oauth_token = getRequestToken()['oauth_token']
+                oauth_version = "1.0"
+                oauth_callback = }
+
+    print authorize_url + "?" + urllib.urlencode(content)
+    
+    return authorize_url + "?" + urllib.urlencode(content)
 
 f = "data/quench.db"
 db = connect(f)
@@ -138,6 +158,7 @@ def duplicate(user):#checks if username already exists
         db.commit()
         db.close()
     return retVal
+'''
 
 if __name__ == '__main__':
     getRequestToken()
