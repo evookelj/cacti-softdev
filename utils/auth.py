@@ -3,6 +3,7 @@
 from hashlib import sha1
 from sqlite3 import connect
 from os import urandom
+from flask import request
 import oauth2 as oauth
 import urllib, urllib2
 import urlparse
@@ -54,26 +55,26 @@ def getRedirectLink():
     return authorize_url + "?" + urllib.urlencode(content)
 
 #print getRedirectLink()
-
-def getCallbackInfo():
-    link = "http://127.0.0.1:5000/"
-    parsed = urlparse.urlparse(link)
-    info = { 'new_token': urlparse.parse_qs(parsed.query)['oauth_token'],
-             'verifier': urlparse.parse_qs(parsed.query)['oauth_verifier'] }
-    return info
     
-def getAccessToken():
+def getAccessToken(new_token, verifier):
     request_token = getRequestToken()
-    if getCallbackInfo()['new_token'] != request_token['oauth_token']:
-        raise Exception("new_token != oauth_token")
     
     token = oauth.Token(request_token['oauth_token'],request_token['oauth_token_secret'])
-    token.set_verifier(getCallbackInfo()['verifier'])
+    token.set_verifier(verifier)
     client = oauth.Client(consumer, token)
-    
+
+    content = { 'oauth_consumer_key': CONSUMER_KEY,
+                'oauth_nonce': getRequestToken()['oauth_nonce'],
+                'oauth_signature': getRequestToken()['oauth_signature'],
+                'oauth_signature_method': "HMAC-SHA1",
+                'oauth_timestamp': getRequestToken()['oauth_timestamp'],
+                'oauth_token': new_token,
+                'oauth_version': getRequestToken()['oauth_version'],
+                'oauth_verifier': verifier }
+                
     resp, info = client.request(access_token_url, "POST")
     if resp['status'] != "200":
-        raise Exception("Error: " + resp['status'])
+        raise Exception(resp)
 
     resp = json.dumps(resp)
     info = [resp, info]
@@ -81,7 +82,8 @@ def getAccessToken():
     access_token = dict(urlparse.parse_qsl(info))
     
     print access_token
-    #print access_token['oauth_token_secret']
+    print access_token['oauth_token']
+    print access_token['oauth_token_secret']
 
     return access_token
 
