@@ -11,15 +11,11 @@ Optimal time to post:
 
 Try another tweet:
 <form method="POST" action="/tweet/">
-  <input name="tweet" type="text" placeholder="Find the optimal time for your tweet" />
-  <br>
+    <textarea rows="4" cols="50" name="tweet">
+      Enter your tweet here...
+    </textarea>
   <button type="submit">Quench!</button>
 </form>
-
-<form method="POST" action="/logout/">
-  <button type="submit">Log Out</button>
-</form>
-
 <form method="POST" action="/auth/">
   <button type="submit"> Tweet</button>
 </form>
