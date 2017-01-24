@@ -60,3 +60,4 @@ yvonneC -- 2017-01-23 11:00
 	continued implementing oauth
 angelaY -- 2017-01-23 21:20
 	worked on front end design, adjustments of forms and buttons, removal of superfluous code and added about & algo page
+	added javascript to hide logout button when users are not logged in, a temporary? fix
