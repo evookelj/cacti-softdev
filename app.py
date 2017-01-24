@@ -51,6 +51,14 @@ def tweet():
     data = results[1]
     return render_template("results.html", message=ui, time=str(opt[0])+":"+str(opt[1]))
 
+@app.route("/about/")
+def about():
+    return render_template("about.html")
+
+@app.route("/algo/")
+def algo():
+    return render_template("algo.html")
+
 if __name__ == '__main__':
     app.debug = True
     app.run()

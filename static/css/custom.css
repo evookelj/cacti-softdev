@@ -9,3 +9,8 @@ nav.navbar {
     margin-top: 15px;
     background-color: #DAF7A6;
 }
+
+#logout{
+  text-align:right;
+  padding-top: 2mm;
+}

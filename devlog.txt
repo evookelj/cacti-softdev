@@ -48,7 +48,7 @@ emmaV & yvonneC -- 2017-01-18 12:30
 	incorporate db fully into quench and fix app.py calling
 yvonneC & angelaY -- 2017-01-18 12:30
 	started working on oauth and implementing sign in with twitter
-	
+
 emmaV -- 2017-01-19 15:35
       - Incorporate engagement into weighting
       - More efficiently filter getting tweets by engagement
@@ -58,3 +58,5 @@ yvonneC -- 2017-01-23 2:26
 	encountered problem with retrieving access token for user -- probably needs to be tested with the main website
 yvonneC -- 2017-01-23 11:00
 	continued implementing oauth
+angelaY -- 2017-01-23 21:20
+	worked on front end design, adjustments of forms and buttons, removal of superfluous code and added about & algo page

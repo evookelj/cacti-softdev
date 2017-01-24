@@ -2,14 +2,19 @@
 {% block content %}
 
 <form method="POST" action="/tweet/">
+  <div class="col-md-4">
+      <h3>Tweet something!</h3>
+  </div>
   {{error}}
-  <input name="tweet" type="text" placeholder="Find optimal time" />
-  <br>
-  <button type="submit">Quench!</button>
-</form>
 
-<form method="POST" action="/logout/">
-  <button type="submit">Log Out</button>
+      <textarea rows="2" cols="100" name="tweet">
+      Enter your tweet here...
+    </textarea>
+
+<div class="pull-right">
+  <button type="submit">Quench!</button>
+</div>
+
 </form>
 
 <a href={{ url }}>Post for me</a>
