@@ -53,6 +53,10 @@ def callback():
 
     return render_template("dashboard.html", username=user, message = resp)
 
+@app.route("/history/", methods=['POST'])
+def history():
+    return render_template("archive.html", username=session["username"])
+
 @app.route("/logout/", methods=['POST'])
 def logout():
     session.pop("username")
