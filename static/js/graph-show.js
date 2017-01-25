@@ -9,7 +9,10 @@
     var graphContainer = document.getElementById("graph");
     var graphData = [];
     try {
-        graphData = JSON.parse(graphContainer.getAttribute("data-tweets"));
+        var graphDataJSON = graphContainer.getAttribute("data-tweets");
+        graphData = JSON.parse(graphDataJSON);
+        console.log("graphData:", graphData);
+        console.log("graphDataJSON:", graphDataJSON);
     } catch (e) {
         console.error(e);
         console.error("PARSING data-tweets FAILED");
