@@ -55,6 +55,8 @@ def callback():
 
 @app.route("/history/", methods=['POST'])
 def history():
+    info = quench.getTime(session["username"], "Go Team Cacti!")
+    print info
     return render_template("archive.html", username=session["username"])
 
 @app.route("/logout/", methods=['POST'])

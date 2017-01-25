@@ -2,7 +2,7 @@
 import textprocess, twitter, enchant, pytz, datetime
 from sqlite3 import connect
 
-f = "../data/quench.db"
+f = "data/quench.db"
 
 # TABLE tweets
 # TEXT handle, TEXT tweet, INT hr, INT minute
@@ -120,4 +120,3 @@ def quench(user, tweet, hasImage):
 
 if __name__ == '__main__':
      quench("user", "Programming is so great!", False);
-     getTime("user", "Programming is so great!")
