@@ -72,14 +72,7 @@ def tweet():
     results=quench.quench(session["username"],ui, False)
     opt = results[0]
     data = results[1]
-    data_json = "[]"
-    try:
-        data_json = json.dumps(data)
-    except:
-        print "ERROR!: json.dumps(data) failed. Data was:"
-        print data
-        print "Falling back by sending \"[]\" (so there will be an empty graph"
-    #return render_template("results.html", message=ui, time=util.fmtTime(opt), tweets=data_json)
+    data_json = json.dumps(data)
     return render_template("results.html", message=ui, time=opt, tweets=data_json)
 
 @app.route("/about/")
