@@ -6,8 +6,8 @@
 <h4>Optimal time to post:</h4>
 {{time}}
 <br><br>
-<form method="POST" action="/tweeter/">
-    <button type="submit">Tweet for me!</a></button>
+<form method="POST" action="/tweet/">
+    <button type="submit" name="tweeter">Tweet for me!</a></button>
 </form>
 <br><br>
 
@@ -16,7 +16,7 @@ Try another tweet:
     <textarea rows="4" cols="50" name="tweet">
 Enter your tweet here...
 </textarea>
-  <button type="submit">Quench!</button>
+  <button type="submit" name="quench">Quench!</button>
 </form>
 
 {%endblock%}

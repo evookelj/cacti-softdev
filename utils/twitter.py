@@ -1,8 +1,11 @@
-import sqlite3, time
+import time
+from sqlite3 import connect
 import oauth2 as oauth
 import json
 from time import strptime
 import urllib
+import tweepy
+import auth
 
 t = open("tw.txt","r")
 keys = t.read().split("\n")
@@ -19,6 +22,37 @@ client = oauth.Client(consumer, access_token)
 timeline_endpoint = "https://api.twitter.com/1.1/search/tweets.json?"
 count = 100
 addon = "lang=en&count=%s"%(count)
+
+f = "data/quench.db"
+
+def get_api(info):
+    auth = tweepy.OAuthHandler(info['consumer_key'], info['consumer_secret'])
+    auth.set_access_token(info['access_token'], info['access_token_secret'])
+    return tweepy.API(auth)
+
+def get_tokens(user):
+    db = connect(f)
+    c = db.cursor()
+    query = "SELECT accessToken, secretToken FROM users WHERE user=?"
+    info = c.execute(query, (user, ))    
+    tokens = []
+    for record in info:
+        tokens = record
+    db.commit()
+    db.close()
+    return tokens
+
+def update_tweet(tweet, user):
+    info = { 
+        "consumer_key": CONSUMER_KEY,
+        "consumer_secret": CONSUMER_SECRET,
+        "access_token": get_tokens(user)[0],
+        "access_token_secret": get_tokens(user)[1], 
+    }
+    
+    api = get_api(info)
+    status = api.update_status(status = tweet)    
+    return "Tweeted!" 
 
 def addSearchTerm(term):
     global addon
