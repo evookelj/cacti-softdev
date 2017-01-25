@@ -67,7 +67,7 @@ def tweet():
     results=quench.quench(session["username"],ui, False)
     opt = results[0]
     data = results[1]
-    return render_template("results.html", message=ui, time=str(opt[0])+":"+str(opt[1]))
+    return render_template("results.html", message=ui, time=str(opt[0])+":"+str(opt[1]), tweets=data)
 
 @app.route("/about/")
 def about():
