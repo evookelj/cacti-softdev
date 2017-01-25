@@ -79,7 +79,8 @@ def tweet():
         print "ERROR!: json.dumps(data) failed. Data was:"
         print data
         print "Falling back by sending \"[]\" (so there will be an empty graph"
-    return render_template("results.html", message=ui, time=util.fmtTime(opt), tweets=data_json)
+    #return render_template("results.html", message=ui, time=util.fmtTime(opt), tweets=data_json)
+    return render_template("results.html", message=ui, time=opt, tweets=data_json)
 
 @app.route("/about/")
 def about():

@@ -20,8 +20,8 @@ access_token = oauth.Token(key=ACCESS_KEY, secret=ACCESS_SECRET)
 client = oauth.Client(consumer, access_token)
 
 timeline_endpoint = "https://api.twitter.com/1.1/search/tweets.json?"
-count = 100
-addon = "lang=en&count=%s"%(count)
+count = 8
+addon = "count=%s"%(count)
 
 f = "data/quench.db"
 

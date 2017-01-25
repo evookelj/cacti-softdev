@@ -57,18 +57,18 @@ def calcTime(tweet, hasImage):
      optMin = 0
      totWeight = float(0)
      for data in datas:
-          if isEnglish(data['text']):
-               wordWeight =  textprocess.relevancyWeight(tweetPhrase, tweetTag, tweet, data['text'], False)
-               if wordWeight != 0:
-                    engagement = data['engagement']
-                    weight = float((wordWeight*.5) + (engagement*.5))
-                    gotten.append({
-                         'time': data['time'],
-                         'weight': weight
-                    })
-                    optHr += data['time'][0]*weight
-                    optMin += data['time'][1]*weight
-                    totWeight += float(weight)
+          wordWeight =  textprocess.relevancyWeight(tweetPhrase, tweetTag, tweet, data['text'], False)
+          if wordWeight != 0:
+               engagement = data['engagement']
+               weight = float((wordWeight*.5) + (engagement*.5))
+               gotten.append({
+                    'time': data['time'],
+                    'weight': weight
+               })
+               optHr += data['time'][0]*weight
+               optMin += data['time'][1]*weight
+               totWeight += float(weight)
+               print "GOT ONE"
      if totWeight != 0:
           return [[int(optHr/totWeight), int(optMin/totWeight)], gotten]
      else:
@@ -85,8 +85,9 @@ def quench(user, tweet, hasImage):
      clc = calcTime(tweet, hasImage)
      utcT = clc[0]
      addToTable(user, tweet, utcT[0], utcT[1])
-     tm = [ utcToLocal(utcT[0], utcT[1], "US/Eastern"), clc[1] ]
-     return tm
+     clc[0] = [ utcToLocal(utcT[0], utcT[1], "US/Eastern"), clc[1] ]
+     print clc
+     return clc
 
 if __name__ == '__main__':
      quench("user", "Programming is so great!", False);
