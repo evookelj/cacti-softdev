@@ -46,9 +46,9 @@ var Graphing = (function (window) {
      * sortDatapoints returns a map from times to arrays of weights
      */
     var sortDatapoints = function (data) {
-        var result = {}, i;
+        var result = {}, i, t;
         for (i = 0; i < data.length; i += 1) {
-            let t = data[i].time;
+            t = data[i].time;
             // Set the position to an array if not already set
             result[t] = result[t] || [];
             // Put this weight in the position
