@@ -1,5 +1,6 @@
 from flask import Flask, session, request, url_for, redirect, render_template
 from utils import auth, quench, util
+import json
 
 app = Flask(__name__)
 app.secret_key = "deal with this later"
@@ -71,7 +72,14 @@ def tweet():
     results=quench.quench(session["username"],ui, False)
     opt = results[0]
     data = results[1]
-    return render_template("results.html", message=ui, time=util.fmtTime(opt), tweets=data)
+    data_json = "[]"
+    try:
+        data_json = json.dumps(data)
+    except:
+        print "ERROR!: json.dumps(data) failed. Data was:"
+        print data
+        print "Falling back by sending \"[]\" (so there will be an empty graph"
+    return render_template("results.html", message=ui, time=util.fmtTime(opt), tweets=data_json)
 
 @app.route("/about/")
 def about():
