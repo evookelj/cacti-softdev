@@ -20,7 +20,7 @@ def phrase(text):
     if 'NP' in j.keys():
         return j['NP']
     else:
-        return []
+        return text.split(" ")
 
 def tag(text):
     text = text.lower()
@@ -50,7 +50,7 @@ def isSameTopic(phraseUser, tagUser, foundTweet, isMoreSensitive):
     phrVal = float(intrs)/den
     tagTweet = tag(foundTweet)
     #print "GOT IS SAME TOPIC"
-    
+
     return (.8*phrVal)+(.2*isSameChunks(tagUser, tagTweet, isMoreSensitive))
 
 def isSameChunks(tagUser, tagTweet, isMoreSensitive):
