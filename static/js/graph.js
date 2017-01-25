@@ -4,6 +4,10 @@ var Graphing = (function (window) {
     const arrow_head_angle = Math.PI * 0.2;
     const minutes_in_day = 60 * 24;
 
+    const emoji_fire = "\uD83D\uDD25";
+    const emoji_100 = "\uD83D\uDCAF";
+    const emoji_poo = "\uD83D\uDCA9";
+
     /////////////////////////////////////////////////////////////
     // UTIL: ////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////
@@ -91,17 +95,12 @@ var Graphing = (function (window) {
         var cx = x_left + w / 2;
         var cy = y_top + h / 2;
 
-        ctx.save();
-
         ctx.textAlign = "center";
 
         // X AXIS LABELS:
 
-        // Draw AM label under first half of graph, PM label under
-        // second half, "Time of day" label under center:
-        ctx.fillText("AM", cx - w / 4, y_top + h + 35);
-        ctx.fillText("PM", cx + w / 4, y_top + h + 35);
-        ctx.fillText("Time of day   ", cx, y_top + h + 45);
+        ctx.save();
+
         // Draw tick marks for hours, and corresponding hour numbers:
         var hourTickSep = w / 24;
         var i, tickx;
@@ -114,6 +113,37 @@ var Graphing = (function (window) {
         }
         ctx.stroke();
 
+        // Draw AM label under first half of graph, PM label under
+        // second half, "Time of day" label under center:
+        ctx.fillText("AM", cx - w / 4, y_top + h + 35);
+        ctx.fillText("PM", cx + w / 4, y_top + h + 35);
+        ctx.font = "15px sans-serif";
+        ctx.fillText("Time of day   ", cx, y_top + h + 45);
+
+        ctx.restore();
+
+        // Y AXIS LABELS:
+        // Tick marks:
+        ctx.beginPath();
+        ctx.moveTo(x_left - 4, y_top + h);
+        ctx.lineTo(x_left + 4, y_top + h);
+        ctx.moveTo(x_left - 4, y_top + 10);
+        ctx.lineTo(x_left + 4, y_top + 10);
+        ctx.stroke();
+
+        // Max-weight and min-weight labels:
+        ctx.save();
+        ctx.font = "20px sans-serif";
+        ctx.fillText(emoji_poo, x_left - 18, y_top + h);
+        ctx.fillText(emoji_100, x_left - 18, y_top + 17);
+        ctx.restore();
+
+        // "Success" label:
+        ctx.save();
+        ctx.font = "15px sans-serif";
+        ctx.translate(x_left, y_top);
+        ctx.rotate(-Math.PI / 2);
+        ctx.fillText("Success", -h / 2, -8);
         ctx.restore();
     };
 
@@ -150,7 +180,7 @@ var Graphing = (function (window) {
     // Increases line sharpness
     ctx.translate(0.5, 0.5);
 
-    drawScatterplot(ctx, 10, 10, 400, 200, sortDatapoints([
+    drawScatterplot(ctx, 30, 10, 400, 200, sortDatapoints([
         {
             "time": 123,
             "weight": 0.6
