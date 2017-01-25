@@ -69,7 +69,8 @@ def tweet():
         opt = results[0]
         data = results[1]
         data_json = json.dumps(data)
-        return render_template("results.html", message=ui, time=util.fmtTime(opt), tweets=data_json)
+        found_tweets = data != []
+        return render_template("results.html", message=ui, found_tweets=found_tweets, time=util.fmtTime(opt), tweets=data_json)
     
     if "tweeter" in request.form:
         if quench.exists(session["username"], ui):

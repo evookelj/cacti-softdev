@@ -11,12 +11,19 @@
     <div class="col-md-6">
         <h1>Your Tweet</h1>
         <blockquote><em>{{message}}</em></blockquote>
+        {% if not found_tweets %}
+        <h4>
+            We couldn't find posts like yours! You're a special creative
+            snowflake and you can post whenever you want.
+        </h4>
+        {% else %}
         <h4>Optimal time to post: <strong>{{time}}</strong></h4>
         <h4>How well posts like yours do over the course of the day:</h4>
         <div id="graph" data-tweets='{{tweets}}'><canvas width=500 height=275 id="graph-canvas"></canvas></div>
         <form method="POST" action="/tweet/">
             <button class="btn btn-success" name="tweeter" type="submit">Tweet for me!</a></button>
         </form>
+        {% endif %}
     </div>
     <div class="col-md-6">
         <br />
