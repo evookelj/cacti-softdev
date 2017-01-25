@@ -83,5 +83,8 @@ angelaY -- 2017-01-25 00:20
 	fixed database lock
 yvonneC -- 2017-01-25 00:45
 	fixed posting for tweets, minor error in authentication
-angelay --2017-01-25 1:40
+angelaY -- 2017-01-25 1:40
 	debugging, fixed issue when text processing couldn't find a phrase and therefore leads to same result
+angelaY -- 2017-01-25 2:25
+	issues left: I see no way to implement the scheduled tweet
+		the graph is gone
