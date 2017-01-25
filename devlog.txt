@@ -59,7 +59,9 @@ yvonneC -- 2017-01-23 11:00
 angelaY -- 2017-01-23 21:20
 	worked on front end design, adjustments of forms and buttons, removal of superfluous code and added about & algo page
 	added javascript to hide logout button when users are not logged in, a temporary? fix
-wilsonB -- 2017-01-24 7:40
+wilsonB -- 2017-01-24 19:40
 	made graph.js draw full graphs with points
 	stylized graphs
 	corrected indentation in devlog
+wilsonB -- 2017-01-24 20:10
+	apply layout and styling to dashboard.html, alter title, and add welcome text
