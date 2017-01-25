@@ -37,7 +37,7 @@ def oauth():
     if auth.updated(session["username"]):
         return render_template("dashboard.html",
                 username=session["username"],
-                message = "Unable to authenticate")
+                message = "Already Authenticated!")
     return redirect(url)
 
 @app.route("/callback/", methods=['GET', 'POST'])
@@ -63,6 +63,8 @@ def logout():
 
 @app.route("/tweet/", methods=['POST'])
 def tweet():
+    if not 'tweet' in request.args:
+        return render_template("dashboard.html",username=session["username"], message = "Please write a tweet!")
     ui=request.form['tweet']
     if len(ui)>140:
         return render_template("dashboard.html", username=session["username"], message="Please enter a potential tweet that fits within the 140 character limit")

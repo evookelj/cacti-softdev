@@ -158,9 +158,8 @@ def updated(user): #checks if the account is already authenticated
     c = db.cursor()
     query = ("SELECT accessToken, secretToken FROM users WHERE user =?")
     result = c.execute(query, (user, ))
-    print result
     for sel in result:
-        if sel == "tbd":
+        if sel[0] == 'tbd':
             return False
     return True
 
