@@ -1,5 +1,5 @@
 from flask import Flask, session, request, url_for, redirect, render_template
-from utils import auth, quench, util
+from utils import auth, quench, util, twitter
 import json
 
 app = Flask(__name__)
@@ -53,10 +53,6 @@ def callback():
 
     return render_template("dashboard.html", username=user, message = resp)
 
-@app.route("/tweeter/", methods=['POST'])
-def tweetForMe():
-    return render_template("dashboard.html", username=session["username"])
-
 @app.route("/logout/", methods=['POST'])
 def logout():
     session.pop("username")
@@ -64,16 +60,27 @@ def logout():
 
 @app.route("/tweet/", methods=['POST'])
 def tweet():
-    if not 'tweet' in request.form:
-        return render_template("dashboard.html",username=session["username"], message = "Please write a tweet!")
     ui=request.form['tweet']
-    if len(ui)>140:
-        return render_template("dashboard.html", username=session["username"], message="Please enter a potential tweet that fits within the 140 character limit")
-    results=quench.quench(session["username"],ui, False)
-    opt = results[0]
-    data = results[1]
-    data_json = json.dumps(data)
-    return render_template("results.html", message=ui, time=util.fmtTime(opt), tweets=data_json)
+    if len(ui)>140 or len(ui) == 0:
+            return render_template("dashboard.html", username=session["username"], message="Please enter a potential tweet that fits within the 140 character limit")
+
+    if "quench" in request.form:
+        results=quench.quench(session["username"],ui, False)
+        opt = results[0]
+        data = results[1]
+        data_json = json.dumps(data)
+        return render_template("results.html", message=ui, time=util.fmtTime(opt), tweets=data_json)
+    
+    if "tweeter" in request.form:
+        if quench.exists(session["username"], ui):
+            return render_template("dashboard.html", username=session["username"], message = "You already tweeted that!")
+        if not auth.updated(session["username"]):
+            return render_template("dashboard.html", username=session["username"], message = "Please authenticate you account first!")
+    
+        resp = twitter.update_tweet(ui, session["username"])
+        return render_template("dashboard.html",
+                               username=session["username"],
+                               message = resp)    
 
 @app.route("/about/")
 def about():
