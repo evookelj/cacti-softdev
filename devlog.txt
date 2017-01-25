@@ -65,5 +65,6 @@ wilsonB -- 2017-01-24 19:40
 	corrected indentation in devlog
 wilsonB -- 2017-01-24 20:10
 	apply layout and styling to dashboard.html, alter title, and add welcome text
-	fix tweet() function in app.py to check request.form for tweet text
+	fix tweet() function in app.py to check request.form for tweet text (previously checked request.args, but used POST)
 	format displayed time as HH:MM AM|PM
+	display graph in results of tweet processing
