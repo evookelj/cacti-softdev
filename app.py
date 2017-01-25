@@ -63,7 +63,7 @@ def logout():
 
 @app.route("/tweet/", methods=['POST'])
 def tweet():
-    if not 'tweet' in request.args:
+    if not 'tweet' in request.form:
         return render_template("dashboard.html",username=session["username"], message = "Please write a tweet!")
     ui=request.form['tweet']
     if len(ui)>140:
