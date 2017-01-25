@@ -1,22 +1,37 @@
 {% extends "layout.html" %}
+{% block more_head %}
+<style>
+canvas {
+    border-radius; 10px;
+}
+</style>
+{% endblock %}
 {% block content %}
 
-<h4>Your tweet:</h4>
-{{message}}
-<h4>Optimal time to post:</h4>
-{{time}}
-<br><br>
-<form method="POST" action="/tweet/">
-    <button type="submit" name="tweeter">Tweet for me!</a></button>
-</form>
-<br><br>
-
-Try another tweet:
-<form method="POST" action="/tweet/">
-    <textarea rows="4" cols="50" name="tweet">
-Enter your tweet here...
-</textarea>
-  <button type="submit" name="quench">Quench!</button>
-</form>
+<div class="row">
+    <div class="col-md-6">
+        <h1>Your tweet:</h1>
+        <blockquote><em>{{message}}</em></blockquote>
+        <h4>Optimal time to post: <strong>{{time}}</strong></h4>
+        <h4>How well posts like yours do over the course of the day:</h4>
+        <div id="graph" data-tweets='{{tweets}}'><canvas width=500 height=300 id="graph-canvas"></canvas></div>
+        <form method="POST" action="/auth/">
+            <button class="btn btn-success" name="tweeter" type="submit">Tweet for me at {{time}}!</a></button>
+        </form>
+    </div>
+    <div class="col-md-6">
+        <br />
+        <h2>Try another...</h2>
+        <form action="/tweet/" method="POST">
+            <textarea style="width: 100%;" rows="4" cols="50" name="tweet" placeholder="Enter your tweet here..."></textarea>
+            <br />
+            <button style="width: 100%; height: 100%;" class="btn btn-success" type="submit" name="quench">Quench!</button>
+        </form>
+    </div>
+</div>
 
 {%endblock%}
+{% block more_scripts %}
+<script src="/static/js/graph.js"></script>
+<script src="/static/js/graph-show.js"></script>
+{% endblock %}

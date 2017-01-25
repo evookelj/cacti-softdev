@@ -180,30 +180,6 @@ var Graphing = (function (window) {
         drawAxisLabels(ctx, x_left, y_top, w, h);
     };
 
-    /////////////////////////////////////////////////////////////
-    // TESTING: /////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////////
-    var canvas = document.getElementById("graph");
-    var ctx = canvas.getContext('2d');
-
-    // Increases line sharpness
-    ctx.translate(0.5, 0.5);
-
-    drawScatterplot(ctx, 30, 10, 400, 200, sortDatapoints([
-        {
-            "time": 123,
-            "weight": 0.6
-        },
-        {
-            "time": 123,
-            "weight": 0.8
-        },
-        {
-            "time": 588,
-            "weight": 0.3
-        },
-    ]));
-
     return Object.freeze({
         sortDatapoints: sortDatapoints,
         drawScatterplot: drawScatterplot,

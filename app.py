@@ -1,5 +1,5 @@
 from flask import Flask, session, request, url_for, redirect, render_template
-from utils import auth, quench, twitter
+from utils import auth, quench, twitter, util
 
 app = Flask(__name__)
 app.secret_key = "deal with this later"
