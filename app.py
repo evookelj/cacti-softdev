@@ -73,7 +73,7 @@ def tweet():
     opt = results[0]
     data = results[1]
     data_json = json.dumps(data)
-    return render_template("results.html", message=ui, time=opt, tweets=data_json)
+    return render_template("results.html", message=ui, time=util.fmtTime(opt), tweets=data_json)
 
 @app.route("/about/")
 def about():

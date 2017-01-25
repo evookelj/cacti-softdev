@@ -85,9 +85,9 @@ def quench(user, tweet, hasImage):
      clc = calcTime(tweet, hasImage)
      utcT = clc[0]
      addToTable(user, tweet, utcT[0], utcT[1])
-     clc[0] = [ utcToLocal(utcT[0], utcT[1], "US/Eastern"), clc[1] ]
-     print clc
-     return clc
+     result = [ utcToLocal(utcT[0], utcT[1], "US/Eastern"), clc[1] ]
+     print result
+     return result
 
 if __name__ == '__main__':
      quench("user", "Programming is so great!", False);
