@@ -8,6 +8,10 @@ var Graphing = (function (window) {
     const emoji_100 = "\uD83D\uDCAF";
     const emoji_poo = "\uD83D\uDCA9";
 
+    const point_color = "#ff0000";
+    const graph_color = "#003474";
+    const bg_color = "#d0eeed";
+
     /////////////////////////////////////////////////////////////
     // UTIL: ////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////
@@ -148,6 +152,10 @@ var Graphing = (function (window) {
     };
 
     var drawScatterplot = function (ctx, x_left, y_top, w, h, data) {
+        ctx.fillStyle = bg_color;
+        ctx.fillRect(x_left - 35, y_top - 10, w + 45, h + 65);
+        ctx.fillStyle = graph_color;
+        ctx.strokeStyle = graph_color;
         console.log(data);
         ctx.save();
         ctx.beginPath();
@@ -166,6 +174,7 @@ var Graphing = (function (window) {
                 }
             }
         }
+        ctx.fillStyle = point_color;
         ctx.fill();
         ctx.restore();
         drawAxisLabels(ctx, x_left, y_top, w, h);
