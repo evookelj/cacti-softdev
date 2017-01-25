@@ -54,7 +54,10 @@ def callback():
 
 @app.route("/tweeter/", methods=['POST'])
 def tweetForMe():
-    return render_template("dashboard.html", username=session["username"])
+    
+    return render_template("dashboard.html",
+                           username=session["username"]
+                           message = "Tweeted!")
 
 @app.route("/logout/", methods=['POST'])
 def logout():

@@ -59,9 +59,19 @@ yvonneC -- 2017-01-23 11:00
 angelaY -- 2017-01-23 21:20
 	worked on front end design, adjustments of forms and buttons, removal of superfluous code and added about & algo page
 	added javascript to hide logout button when users are not logged in, a temporary? fix
+yvonneC -- 2017-01-24 2:55
+	successfully retrieved request token link
+	encountered 401 error when exchanging request token with access token
+	encountered "database is locked" error, can be fixed by removing and touching database (not sure that's how it should be?)
+yvonneC -- 2017-01-24 15:30
+	fixed 401 error and successfully retrieved access tokens (finally!)
+	stored access tokens in database
+	tried to combine register/login with authenticating but decided to create a seperate button instead
 wilsonB -- 2017-01-24 19:40
 	made graph.js draw full graphs with points
 	stylized graphs
 	corrected indentation in devlog
 wilsonB -- 2017-01-24 20:10
 	apply layout and styling to dashboard.html, alter title, and add welcome text
+yvonneC -- 2017-01-24 21:54
+	implemented degugging statements, made it so that users can't authenticate multiple times
