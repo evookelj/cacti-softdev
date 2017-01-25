@@ -1,5 +1,5 @@
 from flask import Flask, session, request, url_for, redirect, render_template
-from utils import auth, quench
+from utils import auth, quench, util
 
 app = Flask(__name__)
 app.secret_key = "deal with this later"
@@ -71,7 +71,7 @@ def tweet():
     results=quench.quench(session["username"],ui, False)
     opt = results[0]
     data = results[1]
-    return render_template("results.html", message=ui, time=str(opt[0])+":"+str(opt[1]), tweets=data)
+    return render_template("results.html", message=ui, time=util.fmtTime(opt), tweets=data)
 
 @app.route("/about/")
 def about():
