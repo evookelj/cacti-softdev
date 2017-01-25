@@ -1,40 +1,33 @@
 {% extends "layout.html" %}
-{% block more_scripts %}
-<script src="/static/js/graph.js"></script>
-<script src="/static/js/graph-show.js"></script>
+{% block more_head %}
+<style>
+canvas {
+    border-radius; 10px;
+}
+</style>
 {% endblock %}
 {% block content %}
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-6">
         <h1>Your tweet:</h1>
-    </div>
-    <div class="col-md-8" style="margin: 40px;">
         <blockquote><em>{{message}}</em></blockquote>
-    </div>
-</div>
-<div class="row">
-    <div class="col-md-12">
         <h4>Optimal time to post: <strong>{{time}}</strong></h4>
         <h4>How well posts like yours do over the course of the day:</h4>
-        <div id="graph" data-tweets='{{tweets}}'><canvas id="graph-canvas"></canvas></div>
+        <div id="graph" data-tweets='{{tweets}}'><canvas width=500 height=300 id="graph-canvas"></canvas></div>
         <form method="POST" action="/auth/">
             <button class="btn btn-success" type="submit">Tweet for me at {{time}}!</a></button>
         </form>
     </div>
-</div>
-<div class="row">
-    <div class="col-md-12">
-        <h3>Try another tweet:</h3>
+    <div class="col-md-6">
+        <br />
+        <h2>Try another...</h2>
+        <textarea style="width: 100%;" rows="4" cols="50" name="tweet" placeholder="Enter your tweet here..."></textarea>
+        <br />
+        <button style="width: 100%; height: 100%;" class="btn btn-success" type="submit">Quench!</button>
     </div>
 </div>
-<div class="row">
-    <form method="POST" action="/tweet/">
-        <div class="col-md-8">
-            <textarea style="width: 100%;" rows="4" cols="50" name="tweet" placeholder="Enter your tweet here..."></textarea>
-        </div>
-        <div class="col-md-4" style="height: 100%;">
-            <button style="width: 100%; height: 100%;" class="btn btn-success" type="submit">Quench!</button>
-        </div>
-    </form>
-</div>
 {%endblock%}
+{% block more_scripts %}
+<script src="/static/js/graph.js"></script>
+<script src="/static/js/graph-show.js"></script>
+{% endblock %}
