@@ -55,14 +55,14 @@ def getRedirectLink():
     return authorize_url + "?" + urllib.urlencode(content)
 
 #print getRedirectLink()
-    
+
 def getAccessToken(new_token, verifier):
     request_token = getRequestToken()
-    
+
     token = oauth.Token(new_token, request_token['oauth_token_secret'])
     token.set_verifier(verifier)
     client = oauth.Client(consumer, token)
-                
+
     resp, info = client.request(access_token_url, "POST")
     if resp['status'] != "200":
         raise Exception(resp)
@@ -71,7 +71,7 @@ def getAccessToken(new_token, verifier):
     info = [resp, info]
     info = ';'.join(info)
     access_token = dict(urlparse.parse_qsl(info))
-    
+
     #print access_token
     #print access_token['oauth_token']
     #print access_token['oauth_token_secret']
@@ -114,6 +114,8 @@ def register(user, ps1, ps2):
     c = db.cursor()
     try: #does table already exist?
         c.execute("SELECT * FROM USERS")
+        db.commit()
+        db.close()
     except: #if not, this is the first user!
         c.execute("CREATE TABLE users (user TEXT, salt TEXT, password TEXT, accessToken TEXT, secretToken TEXT)")
         db.commit()
@@ -161,6 +163,8 @@ def updated(user): #checks if the account is already authenticated
     for sel in result:
         if sel[0] == 'tbd':
             return False
+    db.commit()
+    db.close()
     return True
 
 def verify(tokens): #error message for tokens
@@ -194,6 +198,9 @@ def duplicate(user):#checks if username already exists
         db.commit()
         db.close()
     return retVal
+
+db.commit()
+db.close()
 
 if __name__ == '__main__':
     getRequestToken()

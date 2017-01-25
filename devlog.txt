@@ -67,3 +67,5 @@ wilsonB -- 2017-01-24 20:10
 	apply layout and styling to dashboard.html, alter title, and add welcome text
 	fix tweet() function in app.py to check request.form for tweet text
 	format displayed time as HH:MM AM|PM
+angelaY -- 2017-01-25 00:20
+	fixed database lock
