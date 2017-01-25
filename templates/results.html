@@ -6,6 +6,19 @@
 }
 </style>
 {% endblock %}
+
+{% block more_nav %}
+<li><a href="/archive/">Archive</a></li>
+
+<li id="logout">
+     <form action="/logout/" method="POST">
+         <input type="hidden" name="type" value="logout" />
+         <button type="submit" class="btn btn-success">Logout</button>
+     </form>
+
+</li>
+{% endblock %}
+
 {% block content %}
 <div class="row">
     <div class="col-md-6">
