@@ -80,4 +80,6 @@ yvonneC -- 2017-01-24 21:54
 	implemented degugging statements, made it so that users can't authenticate multiple times
 	made it so that users can post tweets... but for the wrong account
 angelaY -- 2017-01-25 00:20
-		fixed database lock
+	fixed database lock
+yvonneC -- 2017-01-25 00:45
+	fixed posting for tweets, minor error in authentication

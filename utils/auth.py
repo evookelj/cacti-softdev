@@ -44,7 +44,8 @@ def getRequestToken():
         raise Exception("oauth_callback not true")
 
 def getRedirectLink():
-    content = { 'oauth_consumer_key': CONSUMER_KEY,
+    print getRequestToken()
+    content = { 'oauth_consumer_key': getRequestToken()['oauth_consumer_key'],
                 'oauth_nonce': getRequestToken()['oauth_nonce'],
                 'oauth_signature': getRequestToken()['oauth_signature'],
                 'oauth_signature_method': "HMAC-SHA1",
@@ -59,6 +60,7 @@ def getRedirectLink():
 def getAccessToken(new_token, verifier):
     request_token = getRequestToken()
 
+    consumer = oauth.Consumer(key=request_token['oauth_consumer_key'], secret=request_token['oauth_token_secret'])
     token = oauth.Token(new_token, request_token['oauth_token_secret'])
     token.set_verifier(verifier)
     client = oauth.Client(consumer, token)
@@ -103,8 +105,8 @@ def login(user, password):
             return "" #no error message because it will be rerouted to mainpage
         else:
             return "User login has failed. Invalid password" #error message
-        db.commit()
-        db.close()
+    db.commit()
+    db.close()
     return "Username does not exist" #error message
 
 def register(user, ps1, ps2):
@@ -114,12 +116,10 @@ def register(user, ps1, ps2):
     c = db.cursor()
     try: #does table already exist?
         c.execute("SELECT * FROM USERS")
-        db.commit()
-        db.close()
     except: #if not, this is the first user!
         c.execute("CREATE TABLE users (user TEXT, salt TEXT, password TEXT, accessToken TEXT, secretToken TEXT)")
-        db.commit()
-        db.close()
+    db.commit()
+    db.close()
     return regMain(user, ps1)#register helper
 
 def regMain(user, password):#register helper
