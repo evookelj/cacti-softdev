@@ -181,9 +181,14 @@ var Graphing = (function (window) {
         drawAxisLabels(ctx, x_left, y_top, w, h);
     };
 
+    var makeGraph = function (ctx, unsorted_data, x_left, y_top, w, h) {
+        drawScatterplot(ctx, x_left, y_top, w, h, sortDatapoints(unsorted_data));
+    };
+
     return Object.freeze({
         sortDatapoints: sortDatapoints,
         drawScatterplot: drawScatterplot,
-        drawAxisLabels: drawAxisLabels
+        drawAxisLabels: drawAxisLabels,
+        makeGraph: makeGraph
     });
 }(this));
