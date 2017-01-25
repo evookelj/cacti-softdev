@@ -40,19 +40,20 @@ var Graphing = (function (window) {
     /**
      * data format: array of...
      * {
-     *     time: int (minutes since midnight,
+     *     time: [integer (hours since midnight), integer (minutes after the hour)]
      *     weight: number from 0 to 1.0
      * }
-     * sortDatapoints returns a map from times to arrays of weights
+     * sortDatapoints returns a map from times, represented as minutes since
+     * midnight, to arrays of weights
      */
     var sortDatapoints = function (data) {
-        var result = {}, i, t;
+        var result = {}, i, timeInMinutes;
         for (i = 0; i < data.length; i += 1) {
-            t = data[i].time;
+            timeInMinutes = data[i].time[0] * 60 + data[i].time[1];
             // Set the position to an array if not already set
-            result[t] = result[t] || [];
+            result[timeInMinutes] = result[timeInMinutes] || [];
             // Put this weight in the position
-            result[t].push(data[i].weight);
+            result[timeInMinutes].push(data[i].weight);
         }
         return result;
     };
