@@ -77,17 +77,17 @@ def tweet():
         data_json = json.dumps(data)
         found_tweets = data != []
         return render_template("results.html", message=ui, found_tweets=found_tweets, time=util.fmtTime(opt), tweets=data_json)
-    
+
     if "tweeter" in request.form:
         if quench.exists(session["username"], ui):
             return render_template("dashboard.html", username=session["username"], message = "You already tweeted that!")
         if not auth.updated(session["username"]):
             return render_template("dashboard.html", username=session["username"], message = "Please authenticate you account first!")
-    
+
         resp = twitter.update_tweet(ui, session["username"])
         return render_template("dashboard.html",
                                username=session["username"],
-                               message = resp)    
+                               message = resp)
 
 @app.route("/about/")
 def about():
@@ -96,6 +96,10 @@ def about():
 @app.route("/algo/")
 def algo():
     return render_template("algo.html")
+
+@app.route("/archive/")
+def archive():
+    return render_template("archive.html", tweets=quench.getData(session["username"]))
 
 if __name__ == '__main__':
     app.debug = True

@@ -94,3 +94,7 @@ wilsonB -- 2017-01-25 1:15
 	make frontend and backend use the same schema to represent time
 	fix fmtTime to handle noon correctly
 	make results.html display a message to user if no tweets were found
+yvonneC -- 2017-01-25 2:30
+	implement archive and storing data
+angelaY -- 2017-01-25 2:40
+	front end additions/adjustments of archive and logout

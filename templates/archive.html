@@ -19,6 +19,11 @@
   <h3 style="margin: 0;"><small>Your past tweets</small></h3>
 
 </div>
+<br>
+{%for tweet in {{tweets}} %}
+<h4> tweet + {{tweets}}[tweet] </h4>
+{%endfor%}
+
 
 
 {% endblock %}
