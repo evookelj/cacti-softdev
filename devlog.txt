@@ -90,3 +90,7 @@ angelaY -- 2017-01-25 2:25
 		the graph is gone
 wilsonB -- 2017-01-25 9:06
 	Improve spacing and text labels on results page
+wilsonB -- 2017-01-25 1:15
+	make frontend and backend use the same schema to represent time
+	fix fmtTime to handle noon correctly
+	make results.html display a message to user if no tweets were found
