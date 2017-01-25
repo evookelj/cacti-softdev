@@ -88,3 +88,5 @@ angelaY -- 2017-01-25 1:40
 angelaY -- 2017-01-25 2:25
 	issues left: I see no way to implement the scheduled tweet
 		the graph is gone
+wilsonB -- 2017-01-25 9:06
+	Improve spacing and text labels on results page
