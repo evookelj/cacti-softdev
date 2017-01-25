@@ -1,31 +1,31 @@
 {% extends "layout.html" %}
 {% block content %}
-
 <div class="row">
     <div class="col-md-12">
-    <h2>Tweet something!</h2>
-    <div class="col-md-12">
-</div>
-<div class="row">
-    <form method="POST" action="/tweet/">
-        <div class="col-md-10">
-            <textarea style="width: 100%; height: 100%; min-height: 80px;" rows="2" cols="100" name="tweet" placeholder='"Today I had to eat so much ice cream..."'></textarea>
+        <h3 style="margin: 0;"><small>Welcome, {{username}}!</small></h3>
+        <h1 style="margin: 5px 5px 5px 0;">Craft your next Tweet</h1>
+        <div class="col-md-12"></div>
+        <div class="row">
+            <form method="POST" action="/tweet/">
+                <div class="col-md-10">
+                    <textarea style="width: 100%; height: 100%; min-height: 80px;" rows="2" cols="100" name="tweet" placeholder='"Today I had to eat so much ice cream..."'></textarea>
+                </div>
+                <div class="col-md-2" style="text-align: center;">
+                    <button class="btn btn-success" type="submit">Quench!</button>
+                    <p><em>Find the best times to post.</em></p>
+                </div>
+            </form>
         </div>
-        <div class="col-md-2" style="text-align: center;">
-            <button class="btn btn-success" type="submit">Quench!</button>
-            <p><em>Find the best times to post.</em></p>
+        <div class="row" style="text-align: center;">
+            <div class="col-sm-3"></div>
+            <form method="POST" action="/auth/">
+                <button class="col-sm-3 btn btn-success" type="submit">Authenticate my account!</button>
+            </form>
+            <form method="POST" action="/tweeter/">
+                <button class="col-sm-3 btn btn-success" type="submit">Tweet for me!</button>
+            </form>
+            <div class="col-sm-3"></div>
         </div>
-    </form>
+    </div>
 </div>
-<div class="row" style="text-align: center;">
-    <div class="col-sm-3"></div>
-    <form method="POST" action="/auth/">
-        <button class="col-sm-3 btn btn-success" type="submit">Authenticate my account!</button>
-    </form>
-    <form method="POST" action="/tweeter/">
-        <button class="col-sm-3 btn btn-success" type="submit">Tweet for me!</button>
-    </form>
-    <div class="col-sm-3"></div>
-</div>
-
 {% endblock %}

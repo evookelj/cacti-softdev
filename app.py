@@ -9,12 +9,12 @@ def home():
     if len(session.keys())==0:
         return render_template('welcome.html')
     else:
-        return render_template("dashboard.html")
+        return render_template("dashboard.html", username=session["username"])
 
 @app.route("/authenticate/", methods=['POST'])
 def authenticate():
     un = request.form["handle"]
-    
+
     if request.form["type"] == "register":
         ps1 = request.form["pass1"]
         ps2 = request.form["pass2"]
@@ -35,7 +35,9 @@ def authenticate():
 def oauth():
     url = auth.getRedirectLink()
     if auth.updated(session["username"]):
-        return render_template("dashboard.html", message = "Unable to authenticate")
+        return render_template("dashboard.html",
+                username=session["username"],
+                message = "Unable to authenticate")
     return redirect(url)
 
 @app.route("/callback/", methods=['GET', 'POST'])
@@ -48,11 +50,11 @@ def callback():
     user = session["username"]
     resp = auth.update(access, user)
     
-    return render_template("dashboard.html", message = resp)
+    return render_template("dashboard.html", username=user, message = resp)
 
 @app.route("/tweeter/", methods=['POST'])
 def tweetForMe():
-    return render_template("dashboard.html")
+    return render_template("dashboard.html", username=session["username"])
 
 @app.route("/logout/", methods=['POST'])
 def logout():
@@ -63,7 +65,7 @@ def logout():
 def tweet():
     ui=request.form['tweet']
     if len(ui)>140:
-        return render_template("dashboard.html", message="Please enter a potential tweet that fits within the 140 character limit")
+        return render_template("dashboard.html", username=session["username"], message="Please enter a potential tweet that fits within the 140 character limit")
     results=quench.quench(session["username"],ui, False)
     opt = results[0]
     data = results[1]
