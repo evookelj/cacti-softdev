@@ -44,13 +44,16 @@ def get_tokens(user):
     return tokens
 
 def update_tweet(tweet, user):
+    db = connect(f)
+    c = db.cursor()
     info = { 
         "consumer_key": CONSUMER_KEY,
         "consumer_secret": CONSUMER_SECRET,
         "access_token": get_tokens(user)[0],
         "access_token_secret": get_tokens(user)[1], 
     }
-    
+    query = "UPDATE tweets SET posted=? WHERE handle=? AND tweet=?"
+    c.execute(query, ("True", user, tweet))
     api = get_api(info)
     status = api.update_status(status = tweet)    
     return "Tweeted!" 

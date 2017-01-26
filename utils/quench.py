@@ -5,7 +5,7 @@ from sqlite3 import connect
 f = "data/quench.db"
 
 # TABLE tweets
-# TEXT handle, TEXT tweet, INT hr, INT minute
+# TEXT handle, TEXT tweet, INT hr, INT minute, results TEXT, posted TEXT
 
 def checkCreateTable():
      db = connect(f)
@@ -13,7 +13,7 @@ def checkCreateTable():
      try:
           c.execute("SELECT * FROM tweets")
      except:
-          c.execute("CREATE TABLE tweets (handle TEXT, tweet TEXT, hr INT, minute INT, results TEXT)");
+          c.execute("CREATE TABLE tweets (handle TEXT, tweet TEXT, hr INT, minute INT, results TEXT, posted TEXT)");
      db.commit()
      db.close()
 
@@ -21,8 +21,8 @@ def exists(user, tweet):
      db = connect(f)
      c = db.cursor()
      checkCreateTable()
-     query = "SELECT hr FROM tweets WHERE handle=? and tweet=?"
-     sel = c.execute(query, (user, tweet))
+     query = "SELECT hr FROM tweets WHERE handle=? and tweet=? AND posted=?"
+     sel = c.execute(query, (user, tweet, "True"))
      retVal = False
      for record in sel:
           retVal = True
@@ -35,8 +35,8 @@ def addToTable(user, tweet, hr, minute):
      c = db.cursor()
      checkCreateTable()
      if not exists(user, tweet):
-          query = ("INSERT INTO tweets VALUES (?, ?, ?, ?)")
-          c.execute(query, (user, tweet, hr, minute))
+          query = ("INSERT INTO tweets VALUES (?, ?, ?, ?, ?, ?)")
+          c.execute(query, (user, tweet, hr, minute, "na", "False"))
      db.commit()
      db.close()
 
