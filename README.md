@@ -1,6 +1,9 @@
 # cacti-softdev
 SoftDev final project: Angela (PM), Emma, Yvonne, Wilson
 
+##Video Demo
+<link here>
+
 ##About
 
 Our project quenchr is a website that will help users quench their thirst for Likes and Followers by optimizing how and when they post. 
@@ -11,5 +14,5 @@ We will also display the progress and how popular a post gets using raw data and
 
 ##Dependencies
 
-pip install pyenchant
-pip install oauth2
+* pip install oauth2
+* pip install 

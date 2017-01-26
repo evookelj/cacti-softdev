@@ -1,9 +1,10 @@
 from flask import Flask, session, request, url_for, redirect, render_template
 from utils import auth, quench, util, twitter
+from os import urandom
 import json
 
 app = Flask(__name__)
-app.secret_key = "deal with this later"
+app.secret_key = urandom(20)
 
 @app.route("/", methods=["GET", "POST"])
 def home():
