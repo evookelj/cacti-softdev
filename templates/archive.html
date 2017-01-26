@@ -23,6 +23,14 @@
 
 {% for tweet in tweets%}
 <h4> {{tweet}} {{tweets[tweet]}} </h4>
+
+<div class="row">
+    <form method="POST" action="/tweet/">
+        <input hidden type="text" name="tweet" size="20" value={{tweet}}>
+        <button class="btn btn-success" name="tweeter" type="submit">Tweet for me!</button>
+    </form>
+</div>
+
 {%endfor%}
 
 
