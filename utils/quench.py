@@ -1,5 +1,6 @@
 #from utils
 import textprocess, twitter, enchant, pytz, datetime
+from utils import util
 from sqlite3 import connect
 
 f = "data/quench.db"
@@ -75,7 +76,8 @@ def getData(user):
      info = c.execute(query, (user,))
      data = {}
      for tweet in info:
-          tm = getTime(user, tweet)
+          gt = getTime(user, tweet)
+          tm = utcToLocal(gt[0], gt[1], "US/Eastern")
           if len(tm) == 0:
                tm = ("00","00")
           tweet = str(tweet[0])
