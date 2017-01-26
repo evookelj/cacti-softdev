@@ -45,7 +45,7 @@ def getTime(user, tweet):
      c = db.cursor()
      checkCreateTable()
      query = "SELECT hr, minute FROM tweets WHERE handle=? and tweet=?"
-     info = c.execute(query, (user, tweet))
+     info = c.execute(query, (user, tweet[0]))
      time = []
      for record in info:
           time = record
@@ -58,10 +58,12 @@ def getData(user):
      c = db.cursor()
      checkCreateTable()
      query = "SELECT tweet FROM tweets WHERE handle=?"
-     info = c.execute(query, (user, ))
+     info = c.execute(query, (user,))
      data = {}
      for tweet in info:
-          data[tweet]=getTime(user, tweet)[0] + ":" + getTime(user,tweet)[1]
+          tweet = tweet
+          tm = getTime(user, tweet)
+          data[tweet]= str(tm[0]) + ":" + str(tm[1])
      print data
      db.commit()
      db.close()
@@ -115,6 +117,3 @@ def quench(user, tweet, hasImage):
      addToTable(user, tweet, utcT[0], utcT[1])
      print result
      return result
-
-if __name__ == '__main__':
-     quench("user", "Programming is so great!", False);
