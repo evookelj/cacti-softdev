@@ -49,9 +49,23 @@ def getTime(user, tweet):
      time = []
      for record in info:
           time = record
+     print time
      db.commit()
      db.close()
      return time
+
+def checkArchive(user):
+     db = connect(f)
+     c = db.cursor()
+     checkCreateTable()
+     query = "SELECT tweet FROM tweets WHERE handle=?"
+     info = c.execute(query, (user,))
+     len = 0
+     for tweet in info:
+          len += 1
+     db.commit()
+     db.close()
+     return len == 0
 
 def getData(user):
      db = connect(f)
@@ -61,10 +75,11 @@ def getData(user):
      info = c.execute(query, (user,))
      data = {}
      for tweet in info:
-          tweet = tweet
           tm = getTime(user, tweet)
+          if len(tm) == 0:
+               tm = ("00","00")
+          tweet = str(tweet[0])
           data[tweet]= str(tm[0]) + ":" + str(tm[1])
-     print data
      db.commit()
      db.close()
      return data

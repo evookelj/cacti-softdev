@@ -53,10 +53,12 @@ def callback():
 
     return render_template("dashboard.html", username=user, message = resp)
 
-@app.route("/history/", methods=['POST'])
+@app.route("/archive/")
 def history():
+    if quench.checkArchive(session["username"]):
+        info = {"You don't have any tweets yet!": " Quench tweets to build an archive!"}
     info = quench.getData(session["username"])
-    return render_template("dashboard.html", username=session["username"], message = info)
+    return render_template("archive.html", tweets=info)
 
 @app.route("/logout/", methods=['POST'])
 def logout():
@@ -95,10 +97,6 @@ def about():
 @app.route("/algo/")
 def algo():
     return render_template("algo.html")
-
-@app.route("/archive/")
-def archive():
-    return render_template("archive.html", tweets=quench.getData(session["username"]))
 
 if __name__ == '__main__':
     app.debug = True
