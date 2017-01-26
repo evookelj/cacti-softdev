@@ -195,12 +195,9 @@ def duplicate(user):#checks if username already exists
     retVal = False
     for record in sel:
         retVal = True
-        db.commit()
-        db.close()
+    db.commit()
+    db.close()
     return retVal
-
-db.commit()
-db.close()
 
 if __name__ == '__main__':
     getRequestToken()

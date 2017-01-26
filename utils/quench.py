@@ -106,7 +106,7 @@ def calcTime(tweet, hasImage):
                engagement = data['engagement']
                weight = float((wordWeight*.5) + (engagement*.5))
                gotten.append({
-                    'time': data['time'],
+                    'time': utcToLocal(data['time'][0], data['time'][1], "US/Eastern"),
                     'weight': weight
                })
                optHr += data['time'][0]*weight

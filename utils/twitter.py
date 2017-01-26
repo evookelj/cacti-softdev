@@ -54,7 +54,9 @@ def update_tweet(tweet, user):
     query = "UPDATE tweets SET posted=? WHERE handle=? AND tweet=?"
     c.execute(query, ("True", user, tweet))
     api = get_api(info)
-    status = api.update_status(status = tweet)    
+    status = api.update_status(status = tweet)
+    db.commit()
+    db.close()
     return "Tweeted!" 
 
 def addSearchTerm(term):
