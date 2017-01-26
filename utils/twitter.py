@@ -38,6 +38,7 @@ def get_tokens(user):
     tokens = []
     for record in info:
         tokens = record
+    print tokens
     db.commit()
     db.close()
     return tokens
