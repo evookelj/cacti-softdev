@@ -17,11 +17,12 @@
 <div class="col-md-12">
   <h1 style="margin: 5px 5px 5px 0;">Archive</h1>
   <h3 style="margin: 0;"><small>Your past tweets</small></h3>
-  
+
 </div>
-<br>
-{%for tweet in {{tweets}} %}
-<h4> tweet <t> {{tweets[tweet]}} </h4>
+<br> <br>
+
+{% for tweet in tweets%}
+<h4> {{tweet}} {{tweets[tweet]}} </h4>
 {%endfor%}
 
 
