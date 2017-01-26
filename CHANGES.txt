@@ -1,0 +1,8 @@
+Design changes:
+We tried to stick as closely to our design document as possible.
+However, because we were unable to find a way to schedule tweets to be posted
+at a later time for the user, we replaced that element with an archives page.
+Although we may not queue posts, users can still easily go back and post tweets
+themselves. Additionally, storing data for graphs in our database proved to be
+more convoluted than previously thought, so we were unable to display graphs of
+past tweets. 
