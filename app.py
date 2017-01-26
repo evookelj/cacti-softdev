@@ -86,6 +86,8 @@ def tweet():
             return render_template("dashboard.html", username=session["username"], message = "Please authenticate you account first!")
 
         resp = twitter.update_tweet(ui, session["username"])
+        print "UI: " + str(ui)
+        print "TYPE: " + str(type(ui))
         return render_template("dashboard.html",
                                username=session["username"],
                                message = resp)
