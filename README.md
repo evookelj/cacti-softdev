@@ -2,7 +2,7 @@
 SoftDev final project: Angela (PM), Emma, Yvonne, Wilson
 
 ##Video Demo
-<link here>
+https://youtu.be/Xaz6m-avRrI
 
 ##About
 
