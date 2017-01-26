@@ -1,5 +1,5 @@
 #from utils
-import textprocess, twitter, enchant, pytz, datetime
+import textprocess, twitter, pytz, datetime
 from utils import util
 from sqlite3 import connect
 

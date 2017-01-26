@@ -90,11 +90,15 @@ angelaY -- 2017-01-25 2:25
 		the graph is gone
 wilsonB -- 2017-01-25 9:06
 	Improve spacing and text labels on results page
-wilsonB -- 2017-01-25 1:15
+wilsonB -- 2017-01-25 13:15
 	make frontend and backend use the same schema to represent time
 	fix fmtTime to handle noon correctly
 	make results.html display a message to user if no tweets were found
-yvonneC -- 2017-01-25 2:30
+yvonneC -- 2017-01-25 14:30
 	implement archive and storing data
-angelaY -- 2017-01-25 2:40
+angelaY -- 2017-01-25 14:40
 	front end additions/adjustments of archive and logout
+emmaV -- 2017-01-25
+	front end debugging and polishing
+emmaV + angelaY + yvonneC -- 2017-01-25 23:30
+	creation of demo video
