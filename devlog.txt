@@ -95,10 +95,14 @@ wilsonB -- 2017-01-25 13:15
 	fix fmtTime to handle noon correctly
 	make results.html display a message to user if no tweets were found
 yvonneC -- 2017-01-25 14:30
-	implement archive and storing data
+	implement archive page and storing past data from tweets
 angelaY -- 2017-01-25 14:40
 	front end additions/adjustments of archive and logout
-emmaV -- 2017-01-25
+emmaV -- 2017-01-25 14:50
 	front end debugging and polishing
+yvonneC -- 2017-01-25 21:30
+	fixed archive page formatting, backend debugging
+emmaV -- 2017-01-25 21:50
+      	fixed tweet for me problems on all pages
 emmaV + angelaY + yvonneC -- 2017-01-25 23:30
 	creation of demo video
